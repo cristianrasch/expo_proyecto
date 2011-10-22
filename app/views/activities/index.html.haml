@@ -1,0 +1,10 @@
+= content_for :title, "#{Activity.model_name.human.pluralize.humanize} de #{@exposition.name}"
+= content_for :sidebar_links, render('sidebar_links')
+
+- if @activities.empty?
+  = not_found(Activity)
+- else
+  %ul
+    = render @activities
+
+= paginate @activities

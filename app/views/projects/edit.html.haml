@@ -1,0 +1,5 @@
+= content_for :title, "Editando #{@project.title}"
+= content_for :sidebar_links, render('sidebar_links')
+
+= form_for(@project, :html => {:multipart => true}) do |f|
+  = render f

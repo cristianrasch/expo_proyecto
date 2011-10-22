@@ -1,0 +1,5 @@
+= content_for :title, "Nueva #{Activity.model_name.human}"
+= content_for :sidebar_links, render('sidebar_links')
+
+= form_for([@exposition, @activity]) do |f|
+  = render f

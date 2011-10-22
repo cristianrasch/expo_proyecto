@@ -1,0 +1,34 @@
+= content_for :title, "Nuevo #{Message.model_name.human}"
+= content_for :sidebar_links, render('sidebar_links')
+
+= form_for(@message, :url => messages_path) do |f|
+  = f.error_messages :header_message => nil, :message => nil
+
+  = hidden_field_tag("#{@source.class.name.downcase}_id", @source.id)
+
+  %p
+    %strong= f.label(:recipients)
+    %br/
+    = f.select(:recipients, options_for_select(@message.recipients.map {|rec| [rec, rec]}), {}, :multiple => true)
+    %br/
+    = link_to_function "Todos", "$('option', '#message_recipients').attr('selected', 'selected');"
+    &nbsp;|&nbsp;
+    = link_to_function "Ninguno", "$('option', '#message_recipients').removeAttr('selected');"
+
+  %p
+    %strong= f.label(:subject)
+    %br/
+    = f.text_field(:subject)
+    
+  %p
+    %strong= f.label(:text)
+    %br/
+    = f.text_area(:text, :cols => 50, :rows => 5)
+    
+  %p= f.submit("Enviar")
+
+= content_for :js do
+  :javascript
+    $(document).ready(function () {
+      $('option', '#message_recipients').attr('selected', 'selected');
+    });

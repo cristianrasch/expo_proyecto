@@ -1,0 +1,47 @@
+common:
+  faculties:
+    "INGENIERÍA ELECTRÓNICA": 1
+    "INGENIERÍA INFORMÁTICA": 2
+    "INGENIERÍA INDUSTRIAL": 3
+    "DEPARTAMENTO DE INGENIERÍA": 4
+    "HUMANIDADES": 5
+    "DEPORTES": 6
+    "ECONÓMICAS": 7
+    "SALUD": 8
+    "OTRA": -1
+    "ESCUELA": -2
+  group_types:
+    "ALUMNOS": 1
+    "GRADUADOS UNLAM": 2
+    "DOCENTES": 3
+    "DOCENTES Y ALUMNOS": 4
+    "EMPRESA": 5
+    "PARTICULAR": 6
+    "COLEGIO O ESCUELA": 7
+    "OTRO": -1
+    "ESTADO": 9
+    "GOBIERNO": 10
+    "INSTITUCIÓN": 11
+    "ONG": 12
+    "INSTITUCIÓN EDUCATIVA": 13
+  expo_modes:
+    "HARDWARE FUNCIONANDO": 1
+    "HARDWARE EXPUESTO": 2
+    "SOFTWARE": 3
+    "CHARLA O CONFERENCIA": 4
+    "DEMOSTRACIÓN": 5
+    "TUTORIAL": 6
+    "PÓSTER, LÁMINA o SLIDESHOW": 7
+    "STAND": 8
+    "OTRA": 9
+    "ROBOT SUMO": 10
+  admin:
+    user: root
+    passwd: lacie789
+  devise:
+    mailer_sender: webmaster@lacie-unlam.org
+  backups_dir: legacy expos' backup dir
+  smtp:
+    user_name: lacie.unlam@gmail.com
+    password: pass123gd72La
+  email_reg_exp: \b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b

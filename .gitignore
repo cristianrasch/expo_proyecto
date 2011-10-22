@@ -1,0 +1,12 @@
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/
+.project
+coverage
+config/config.local.yml
+public/*.pdf
+config/database.yml
+public/system
+public/uploads
+vendor/bundle

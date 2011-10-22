@@ -1,0 +1,13 @@
+= content_for :title, "Re-enviar instrucciones de confirmación"
+
+= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f|
+  = f.error_messages :header_message => nil, :message => nil
+
+  %p
+    = f.label :email
+    %br/
+    = f.email_field :email
+
+  %p= f.submit "Re-enviar instrucciones de confirmación"
+
+= render "devise/shared/links"

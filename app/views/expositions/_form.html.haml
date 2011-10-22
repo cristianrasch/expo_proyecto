@@ -1,0 +1,35 @@
+= form.error_messages :header_message => nil, :message => nil
+
+%p
+  %strong= Exposition.human_attribute_name(:year)
+  %br/
+  = select_year(Date.today, :start_year => Date.today.year, :end_year => 10.years.ago.to_date.year)
+  
+%p
+  %strong= Exposition.human_attribute_name(:name)
+  %br/
+  = form.text_field(:name)
+
+%p
+  %strong= form.label(:start_date)
+  %br/
+  = form.text_field(:start_date, :size => 26, :value => format_date(@exposition.start_date))
+
+%p
+  %strong= form.label(:end_date)
+  %br/
+  = form.text_field(:end_date, :size => 26, :value => format_date(@exposition.end_date))
+  
+%p
+  = form.submit('Guardar')
+
+= content_for :styles, stylesheet_link_tag("jquery-ui-datepicker")
+  
+= content_for :js do
+  = javascript_include_tag 'jquery.ui.datepicker', 'jquery.ui.datepicker-es', 'jquery.ui.timepicker'
+  :javascript
+    $(document).ready(function () {
+      $('#exposition_start_date').datepicker();
+      $('#exposition_end_date').datepicker();
+      $('#date_year').focus();
+    });

@@ -1,0 +1,7 @@
+%p Bienvenido #{@resource.email}!
+
+%p Puede confirmar su cuenta a través del siguiente enlace:
+
+%p= link_to 'Confirmar cuenta', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token)
+
+= render "mail_footer"

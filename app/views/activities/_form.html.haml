@@ -1,0 +1,34 @@
+= form.error_messages :header_message => nil, :message => nil
+
+%p
+  %strong= form.label(:title)
+  %br/
+  = form.text_field(:title)
+
+%p
+  %strong= form.label(:date)
+  %br/
+  = form.text_field(:date, :size => 26, :value => format_date(@activity.date))
+  
+%p
+  %strong= form.label(:from)
+  %br/
+  = form.text_field(:from, :size => 36)
+  
+%p
+  %strong= form.label(:to)
+  %br/
+  = form.text_field(:to, :size => 36)
+  
+%p
+  = form.submit('Guardar')
+
+= content_for :styles, stylesheet_link_tag("jquery-ui-datepicker", "jquery-ui-timepicker")
+= content_for :js do
+  = javascript_include_tag 'jquery.ui.datepicker', 'jquery.ui.datepicker-es', 'jquery.ui.timepicker'
+  :javascript
+    $(document).ready(function () {
+      $('#activity_date').datepicker();
+      $('#activity_from').timepicker({hourText: 'Hora', minuteText: 'Minuto'});
+      $('#activity_to').timepicker({hourText: 'Hora', minuteText: 'Minuto'});
+    });

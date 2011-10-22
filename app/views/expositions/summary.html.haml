@@ -1,0 +1,9 @@
+= content_for :title, "#{@exposition.name} (#{pluralize @exposition.projects.size, Project.model_name.human})"
+= content_for :sidebar_links, render('sidebar_links')
+
+- if @exposition.projects.empty?
+  = not_found(Project)
+- else
+  %ul
+    - @exposition.projects.each do |project|
+      %li= link_to project.title, project

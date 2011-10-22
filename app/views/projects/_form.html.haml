@@ -1,0 +1,115 @@
+= form.error_messages :header_message => nil, :message => nil
+
+%p
+  %strong= form.label(:title)
+  %br/
+  = form.text_field(:title)
+
+%p
+  %strong= form.label(:faculty)
+  %br/
+  = form.select(:faculty, options_for_select(faculty_options, @project.faculty), :include_blank => true)
+  = form.text_field(:other_faculty, :class => @project.other_faculty_required? ? "" : "hidden")
+  
+%p
+  %strong= form.label(:subject)
+  %br/
+  = form.text_field(:subject)
+  
+%p
+  %strong= form.label(:group_type)
+  %br/
+  = form.select(:group_type, options_for_select(group_type_options, @project.group_type), :include_blank => true)
+  = form.text_field(:other_group, :class => @project.other_group_required? ? "" : "hidden")
+  
+%p
+  %strong= form.label(:competes_to_win_prizes)
+  %br/
+  = form.select(:competes_to_win_prizes, options_for_select([['Sí', true], ['No', false]], @project.competes_to_win_prizes))
+  
+%p
+  %strong= form.label(:contact)
+  %br/
+  = form.text_field(:contact)
+  
+%p
+  %strong= form.label(:expo_mode)
+  %br/
+  = form.select(:expo_mode, options_for_select(expo_mode_options, @project.expo_mode), :include_blank => true)
+  
+%p
+  %strong= form.label(:description)
+  %br/
+  = form.text_area(:description, :cols => 50, :rows => 5)
+
+%p
+  %strong= form.label(:requirements)
+  %br/
+  = form.text_area(:requirements, :cols => 50, :rows => 5)
+
+%p
+  %strong= form.label(:lab_gear)
+  %br/
+  = form.text_area(:lab_gear, :cols => 50, :rows => 5)
+
+%p
+  %strong= form.label(:sockets_count)
+  %br/
+  = form.select(:sockets_count, options_for_select((0..3).map {|i| [i, i]}))
+
+- %w{needs_projector needs_screen needs_poster_hanger}.each do |attr|
+  %p
+    = form.check_box(attr, :checked => @project.send("#{attr}_reason").present?)
+    %strong= form.label(attr)
+    %div{:id => attr, :class => @project.send("#{attr}_reason").blank? ? "hidden" : ""}
+      = form.text_area("#{attr}_reason", :cols => 50, :rows => 5)
+
+= form.fields_for :authors do |builder|
+  = render "author_fields", :f => builder
+
+%p
+  %strong= form.label(:author_ids)
+  = link_to_add_fields(image_tag('add.png', :border => 0), form, :authors)
+
+%p
+  %strong= form.label(:image)
+  %br/
+  = form.file_field(:image)
+  - if @project.image?
+    %div= image_tag(@project.image.url(:thumb), :border => 0)
+    = form.check_box :remove_image
+    Eliminar
+  
+%p
+  = form.submit('Guardar')
+
+= content_for :js do
+  :javascript
+    $(document).ready(function () {
+      $.each(["needs_projector", "needs_screen", "needs_poster_hanger"], function(index, attr) { 
+        $('#project_'+attr).change(function() {
+          text_area_div = $('#'+attr);
+          text_area_div.toggle();
+          if(text_area_div.is(':visible'))
+            $('#project_'+attr+'_reason').focus();
+        });
+      });
+      
+      $('#project_faculty').change(function () {
+        selected = $('option:selected', this).first().text();
+        if(selected == 'Otra' || selected == 'Escuela') {
+          $('#project_other_faculty').show();
+          $('#project_other_faculty').focus();
+        } else
+          $('#project_other_faculty').hide();
+      });
+      
+      $('#project_group_type').change(function () {
+        selected = $('option:selected', this).first().text();
+        if(selected == 'Otro') {
+          $('#project_other_group').show();
+          $('#project_other_group').focus();
+        } else
+          $('#project_other_group').hide();
+      });
+    });

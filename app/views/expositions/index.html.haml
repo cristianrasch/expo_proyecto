@@ -1,0 +1,10 @@
+= content_for :title, Exposition.model_name.human.pluralize.humanize
+= content_for :sidebar_links, render('sidebar_links')
+
+- if @expositions.empty?
+  = not_found(Exposition)
+- else
+  %ul
+    = render @expositions
+
+= paginate @expositions

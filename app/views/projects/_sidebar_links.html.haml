@@ -1,0 +1,11 @@
+%ul
+  %li= link_to("Nuevo #{Project.model_name.human}", new_exposition_project_path((@exposition ? @exposition : @project.exposition).year)) if controller.action_name == 'index'
+  - if %w{show prev next}.include?(controller.action_name)
+    %li= link_to('Descargar PDF', project_path(@project, :format => :pdf))
+    %li= link_to(Message.model_name.human.pluralize.humanize, new_message_path(:project_id => @project.id)) if current_user.try(:admin?)
+    %li= link_to(Project.model_name.human.pluralize.humanize, exposition_projects_path((@exposition ? @exposition : @project.exposition).year))
+    - if @project.editable_by?(current_user)
+      %li= link_to('Editar', edit_project_path(@project))
+      %li= link_to('Eliminar', @project, :method => :delete, :confirm => "¿Seguro desea eliminar el #{Project.model_name.human}?")
+  %li= link_to(Exposition.model_name.human.humanize, exposition_path(@exposition.year)) if controller.action_name == 'index'
+  %li= link_to('Volver', :back)

@@ -1,0 +1,8 @@
+%table{:border => "0", :cellpadding => "2", :cellspacing => "2", :width => "100%"}
+  - projects.each_slice(3) do |slice|
+    %tr
+      %td= render slice[0]
+      %td
+        = render slice[1] if slice[1]
+      %td
+        = render slice[2] if slice[2]

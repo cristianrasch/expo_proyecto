@@ -1,0 +1,5 @@
+%p.fields
+  %strong= f.label(:name)
+  %br/
+  = f.text_field(:name)
+  = link_to_remove_fields(image_tag('delete.png', :border => 0), f)

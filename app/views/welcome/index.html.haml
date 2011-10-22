@@ -1,0 +1,29 @@
+= content_for :title, 'Universidad Nacional de La Matanza'
+= content_for :sidebar_links, render('sidebar_links')
+
+%p ExpoProyecto se trata de una exposición que tiene por objetivo dar a conocer las actividades de investigación y desarrollo realizadas en las distintas asignaturas de las carreras así como también las tareas que llevan a cabo los grupos de investigación del Departamento de Ingeniería e Investigaciones Tecnológicas.
+
+%p La muestra contempla además la realización de demostraciones, charlas técnicas, actividades afines y la presencia de empresas e instituciones vinculadas a la ingeniería.
+
+%strong= Activity.model_name.human.pluralize.humanize
+%ul
+  %li= not_found(Activity) if @activities.empty?
+  = render :partial => 'activity', :collection => @activities
+
+%strong Inscripción de proyectos
+
+%p Solicitar alta de registro a los organizadores. 
+
+- if @exposition
+  %ul
+    %li= link_to('Consulta de proyectos y modificación', exposition_projects_path(@exposition.year))
+    %li= link_to('Alta de proyecto', new_exposition_project_path(@exposition.year))
+
+%strong Robolucha - Competencia de Robots
+
+%ul.top_spaced
+  %li= link_to('Reglamento de lucha de robots modalidad sumo', '#')
+  
+%strong Actividades del Laboratorio Abierto 
+
+%p Si querés enterarte de los eventos y actividades del LACIE (Laboratorio Abierto de Ingeniería) podés subscribirte a la lista de correo en yahoo: #{link_to('Difusión de actividades del LACIE', 'http://groups.yahoo.com/group/lacie-difusion/')}

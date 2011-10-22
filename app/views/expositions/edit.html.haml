@@ -1,0 +1,5 @@
+= content_for :title, "Editando #{@exposition.name}"
+= content_for :sidebar_links, render('sidebar_links')
+
+= form_for(@exposition) do |f|
+  = render f

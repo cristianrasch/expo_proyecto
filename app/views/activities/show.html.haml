@@ -1,0 +1,17 @@
+= content_for :title, @activity.title
+= content_for :sidebar_links, render('sidebar_links')
+
+%p
+  %strong= Activity.human_attribute_name(:date)
+  %br/
+  = l(@activity.date)
+
+%p
+  %strong= Activity.human_attribute_name(:from)
+  %br/
+  #{@activity.from}
+  
+%p
+  %strong= Activity.human_attribute_name(:to)
+  %br/
+  #{@activity.to}
