@@ -63,6 +63,22 @@ class Project < ActiveRecord::Base
     private "clear_other_#{attr}_if_not_required"
   end
   
+  %w[requirements lab_gear].each do |attr|
+    define_method("#{attr}=") do |value|
+      write_attribute(attr, value.present? ? value : nil)
+    end
+  end
+  
+  %w[needs_projector_reason needs_screen_reason needs_poster_hanger_reason].each do |method|
+    define_method("#{method}=") do |need|
+      if send(method[/(.+)_reason\z/, 1]).to_i.zero?
+        write_attribute method, nil
+      else
+        write_attribute method, need
+      end
+    end
+  end
+  
   # {"0"=>{"name"=>"Cristian", "id"=>"16", "_destroy"=>"1"}}
   def authors_attributes=(attributes)
     attributes.each do |id, hash|
@@ -100,7 +116,7 @@ class Project < ActiveRecord::Base
     doc.text 'Departamento de Ingeniería e Investigaciones Tecnológicas', :size => 10, :align => :center
     doc.move_down 20
     if image?
-      doc.float { doc.image open(image.url(:thumb)), :fit => [112, 86] }
+      doc.float { doc.image open(image.url(:thumb)), :fit => [102, 79] }
       doc.image File.join(Rails.public_path, 'images', 'logo.png'), :position => :right, :scale => 0.3
     else
       doc.image File.join(Rails.public_path, 'images', 'logo.png'), :position => :center, :scale => 0.3
@@ -193,16 +209,6 @@ class Project < ActiveRecord::Base
   
   def grp_desc
     group_type_desc(faculty) + (other_group.present? ? " (#{other_group})" : '')
-  end
-  
-  %w[needs_projector_reason needs_screen_reason needs_poster_hanger_reason].each do |method|
-    define_method("#{method}=") do |need|
-      if send(method[/(.+)_reason\z/, 1]).to_i.zero?
-        write_attribute method, nil
-      else
-        write_attribute method, need
-      end
-    end
   end
   
   private
