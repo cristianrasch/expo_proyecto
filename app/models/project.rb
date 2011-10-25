@@ -100,7 +100,7 @@ class Project < ActiveRecord::Base
     if doc
       render_file = false
     else
-      doc = Prawn::Document.new(:page_size => [cm2pt(13.5), cm2pt(20)], :margin => 5)
+      doc = Prawn::Document.new(:page_size => [cm2pt(13.5), cm2pt(20)], :margin => [5, 10])
       render_file = true
     end
     
