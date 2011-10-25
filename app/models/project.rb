@@ -116,8 +116,13 @@ class Project < ActiveRecord::Base
     doc.text 'Departamento de Ingeniería e Investigaciones Tecnológicas', :size => 10, :align => :center
     doc.move_down 20
     if image?
-      doc.float { doc.image open(image.url(:thumb)), :fit => [102, 79] }
-      doc.image File.join(Rails.public_path, 'images', 'logo.png'), :position => :right, :scale => 0.3
+      begin
+        doc.float { doc.image open(image.url(:thumb)), :fit => [102, 79] }
+        doc.image File.join(Rails.public_path, 'images', 'logo.png'), :position => :right, :scale => 0.3
+      rescue OpenURI::HTTPError
+        p self.inspect
+        doc.image File.join(Rails.public_path, 'images', 'logo.png'), :position => :center, :scale => 0.3
+      end
     else
       doc.image File.join(Rails.public_path, 'images', 'logo.png'), :position => :center, :scale => 0.3
     end
