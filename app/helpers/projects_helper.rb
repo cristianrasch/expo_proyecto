@@ -1,4 +1,4 @@
-# coding: utf-8
+# encoding: utf-8
 
 module ProjectsHelper
   include ProjectUtils
@@ -14,7 +14,6 @@ module ProjectsHelper
   def escape_emails(contact)
     email_reg_exp = Regexp.new(Conf.email_reg_exp)
     matches = contact.scan(email_reg_exp)
-    matches.each {|match| contact.gsub!(match, match.gsub("@", "__AT__"))}
-    contact
+    matches.inject(contact) { |a, e| a.gsub(e, e.gsub('@', '__AT__')) }
   end
 end

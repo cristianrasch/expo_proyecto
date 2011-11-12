@@ -52,7 +52,7 @@ describe ActivitiesController do
     it "should create a new Activity when valid params are submitted" do
       lambda {
         post :create, :exposition_id => @exposition, 
-             :activity => Factory.attributes_for(:activity, :date => Date.yesterday)
+             :activity => Factory.attributes_for(:activity, :exposition => @exposition)
       }.should change(@exposition.activities, :count).by(1)
       
       response.should be_redirect

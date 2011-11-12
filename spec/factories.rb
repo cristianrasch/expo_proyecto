@@ -25,9 +25,8 @@ end
 Factory.define :activity do |a|
   a.title { Faker::Lorem.word }
   a.exposition { Factory(:exposition) }
-  a.date { |aa| Date.civil(aa.exposition.year, 5, 29) }
-  a.from { 2.hour.ago.strftime('%H:%M') }
-  a.to { 1.hour.ago.strftime('%H:%M') }
+  a.starts_at { |aa| Date.civil(aa.exposition.year, 5, 29) }
+  a.ends_at { |aa| Date.civil(aa.exposition.year, 9, 11) }
 end
 
 Factory.define :user do |u|

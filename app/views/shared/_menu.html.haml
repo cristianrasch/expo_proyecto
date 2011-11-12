@@ -1,13 +1,7 @@
 #menu
   %ul
     %li{:class => current_page?(root_path) ? 'current_page_item' : ''}= link_to('Inicio', root_path)
-    %li{:class => ! current_page?(root_path) ? 'current_page_item' : ''}
-      %a#flat.fg-button.fg-button-icon-right.ui-widget.ui-state-default.ui-corner-all{:href => "#search-engines"}
-        %span.ui-icon.ui-icon-triangle-1-s
-        = Exposition.model_name.human.pluralize.humanize
-      #search-engines.hidden
-        = cache("expositions_list") do
-          = expos_menu
+    %li{:class => current_page?(root_path) ? '' : 'current_page_item'}= link_to(Exposition.model_name.human.pluralize.humanize, expositions_path)
     %li
       - if user_signed_in?
         = link_to "Salir", destroy_user_session_path

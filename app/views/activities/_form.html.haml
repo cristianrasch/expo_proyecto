@@ -6,29 +6,23 @@
   = form.text_field(:title)
 
 %p
-  %strong= form.label(:date)
+  %strong= form.label(:starts_at)
   %br/
-  = form.text_field(:date, :size => 26, :value => format_date(@activity.date))
+  = form.text_field(:starts_at, :size => 20, :value => format_datetime(@activity.starts_at))
   
 %p
-  %strong= form.label(:from)
+  %strong= form.label(:ends_at)
   %br/
-  = form.text_field(:from, :size => 36)
-  
-%p
-  %strong= form.label(:to)
-  %br/
-  = form.text_field(:to, :size => 36)
+  = form.text_field(:ends_at, :size => 20, :value => format_datetime(@activity.ends_at))
   
 %p
   = form.submit('Guardar')
 
-= content_for :styles, stylesheet_link_tag("jquery-ui-datepicker", "jquery-ui-timepicker")
+= content_for :styles, stylesheet_link_tag('jquery-ui-datepicker')
 = content_for :js do
-  = javascript_include_tag 'jquery.ui.datepicker', 'jquery.ui.datepicker-es', 'jquery.ui.timepicker'
+  = javascript_include_tag 'jquery.ui.datepicker', 'jquery.ui.datepicker-es', 'jquery-ui-timepicker-addon', 'jquery-ui-timepicker-es'
   :javascript
     $(document).ready(function () {
-      $('#activity_date').datepicker();
-      $('#activity_from').timepicker({hourText: 'Hora', minuteText: 'Minuto'});
-      $('#activity_to').timepicker({hourText: 'Hora', minuteText: 'Minuto'});
+      $('#activity_starts_at').datetimepicker();
+      $('#activity_ends_at').datetimepicker();
     });

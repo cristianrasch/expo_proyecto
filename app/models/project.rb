@@ -1,4 +1,4 @@
-# coding: utf-8
+# encoding: utf-8
 
 require 'open-uri'
 
@@ -18,12 +18,14 @@ class Project < ActiveRecord::Base
   validates :expo_mode, :numericality => { :message => I18n.t('errors.messages.blank'), :if => :not_in_dev? }, 
                         :inclusion => { :in => Conf.expo_modes.values, :allow_nil => true }
   validates :description, :presence => true unless Rails.env.development?
-  validate :must_have_authors
+  validate :must_have_at_least_one_author
   validates :exposition_id, :numericality => true
   
-  validates :needs_projector_reason, :presence => { :unless => Proc.new { |proj| proj.needs_projector.to_i.zero? } }
+  validates :needs_projector_reason, 
+            :presence => { :unless => Proc.new { |proj| proj.needs_projector.to_i.zero? } }
   validates :needs_screen_reason, :presence => { :unless => Proc.new { |proj| proj.needs_screen.to_i.zero? } }
-  validates :needs_poster_hanger_reason, :presence => { :unless => Proc.new { |proj| proj.needs_poster_hanger.to_i.zero? } }
+  validates :needs_poster_hanger_reason, 
+            :presence => { :unless => Proc.new { |proj| proj.needs_poster_hanger.to_i.zero? } }
   
   belongs_to :exposition
   belongs_to :user
@@ -31,7 +33,6 @@ class Project < ActiveRecord::Base
   accepts_nested_attributes_for :authors, :reject_if => lambda { |a| a[:name].blank? }, :allow_destroy => true
 
   scope :with_images, where("image_file_name is not null")
-  scope :with_extra_needs, where("requirements is not null or lab_gear is not null or sockets_count > 0 or needs_projector_reason is not null or needs_screen_reason is not null or needs_poster_hanger_reason is not null")
 
   attr_reader :remove_image
   attr_accessor :needs_projector, :needs_screen, :needs_poster_hanger
@@ -98,10 +99,10 @@ class Project < ActiveRecord::Base
   
   def to_pdf(doc = nil)
     if doc
-      render_file = false
+      render = false
     else
       doc = Prawn::Document.new(:page_size => [cm2pt(13.5), cm2pt(20)], :margin => [5, 10])
-      render_file = true
+      render = true
     end
     
     box = doc.margin_box
@@ -120,7 +121,6 @@ class Project < ActiveRecord::Base
         doc.float { doc.image open(image.url(:thumb)), :fit => [102, 79] }
         doc.image File.join(Rails.public_path, 'images', 'logo.png'), :position => :right, :scale => 0.3
       rescue OpenURI::HTTPError
-        p self.inspect
         doc.image File.join(Rails.public_path, 'images', 'logo.png'), :position => :center, :scale => 0.3
       end
     else
@@ -166,10 +166,7 @@ class Project < ActiveRecord::Base
     doc.line_to box.right, box.bottom
     doc.stroke
     
-    if render_file
-      doc.render_file(pdf_filename)
-      pdf_filename
-    end
+    doc.render if render
   end
   
   def not_in_dev?
@@ -204,8 +201,16 @@ class Project < ActiveRecord::Base
     project.where(["id < ?", project_id]).first || project.first
   end
   
+  def self.with_extra_needs
+    where <<SQL
+        requirements is not null or lab_gear is not null or sockets_count > 0 or 
+        needs_projector_reason is not null or needs_screen_reason is not null or 
+        needs_poster_hanger_reason is not null
+SQL
+  end
+  
   def remove_image=(remove)
-    self.image = nil if remove == "1"
+    self.image = nil if remove == '1'
   end
   
   def fcty_desc
@@ -216,21 +221,25 @@ class Project < ActiveRecord::Base
     group_type_desc(faculty) + (other_group.present? ? " (#{other_group})" : '')
   end
   
+  def mode_desc
+    expo_mode_desc expo_mode
+  end
+  
+  def filename
+    "#{exposition.year}-#{title.gsub(/\W/, '_')}.pdf"
+  end
+  
   private
   
   def authors_names
-    authors.map(&:name).join(', ')
+    authors.map(&:name).join ', '
   end
   
   def identifier
     "#{exposition.year}-#{id}"
   end
   
-  def pdf_filename
-    @pdf_filename ||= File.join(Dir.tmpdir, "#{exposition.year}-#{title.gsub(/\W/, '_')}.pdf")
-  end
-  
-  def must_have_authors
+  def must_have_at_least_one_author
     errors.add(:author_ids, I18n.t('errors.messages.blank')) if authors.empty?
   end
 end

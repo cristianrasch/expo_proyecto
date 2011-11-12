@@ -104,39 +104,4 @@ describe ExpositionsController do
     response.should redirect_to(expositions_path)
     flash[:notice].should == "#{Exposition.model_name.human.humanize} eliminada"
   end
-  
-  context "anonymous access" do
-    before { sign_out :user }
-    
-    it "should be allowed access to the list of expositions" do
-      get :index
-      
-      response.should be_success   
-    end
-    
-    it "should be allowed access to an exposition's page" do
-      get :show, :id => Factory(:exposition).year
-      
-      response.should be_success   
-    end
-    
-    it "should be denied access to this year's exposition page" do
-      get :show, :id => Date.today.year
-      
-      response.should be_redirect
-      response.should redirect_to(new_user_session_path)
-    end
-  end
-  
-  it "should display Exposition's projects" do
-    expo = Factory(:exposition)
-    2.times { Factory(:project, :exposition => expo) }
-    get :summary, :id => expo.year
-    
-    response.should be_success
-    response.should render_template(:summary)
-    assigns[:exposition].should_not be_nil
-    assigns[:exposition].projects.should_not be_nil
-    assigns[:exposition].projects.should_not be_empty
-  end
 end

@@ -11,20 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111022133507) do
+ActiveRecord::Schema.define(:version => 20111105154045) do
 
   create_table "activities", :force => true do |t|
     t.string   "title"
-    t.date     "date"
-    t.string   "from"
-    t.string   "to"
     t.integer  "exposition_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
   end
 
   add_index "activities", ["exposition_id"], :name => "index_activities_on_exposition_id"
-  add_index "activities", ["title", "date"], :name => "index_activities_on_title_and_date"
+  add_index "activities", ["title", "exposition_id"], :name => "index_activities_on_title_and_exposition_id"
 
   create_table "authors", :force => true do |t|
     t.string   "name"

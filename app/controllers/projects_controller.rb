@@ -1,26 +1,20 @@
 class ProjectsController < ApplicationController
-  skip_before_filter :authenticate_user!, :only => [:index, :show, :next, :prev]
-  before_filter :only => :index do |controller|
-    authenticate_user_if_this_years_exposition params[:exposition_id].to_i
-  end
-  before_filter :only => :show do |controller|
-    @project = Project.find(params[:id], :include => [:exposition, :authors])
-    authenticate_user_if_this_years_exposition @project.exposition.year
-  end
-  before_filter :only => [:prev, :next] do |controller|
-    @project = Project.send("find_#{controller.action_name}", params[:id], params[:exposition_id])
-    authenticate_user_if_this_years_exposition @project.exposition.year
-  end
-  
-  before_filter :fetch_exposition, :only => [:index, :new]
+  before_filter :fetch_exposition, :only => [:index, :gallery, :new]
   
   def index
     respond_to do |format|
-      format.html { @projects = @exposition.projects.order("created_at desc").page(params[:page]).per(12) }
-      format.pdf do 
-        send_file(@exposition.print_projects_pdfs, :type => 'application/pdf')
+      format.html do
+        @project = Project.new(params[:project])
+        @projects = @exposition.filter_projects(@project)
+      end
+      format.pdf do
+        send_data @exposition.print_projects_pdfs, :filename => 'proyectos.pdf', :type => 'application/pdf'
       end
     end
+  end
+  
+  def gallery
+    @projects = @exposition.projects.page(params[:page]).per(12)
   end
 
   def new
@@ -33,7 +27,8 @@ class ProjectsController < ApplicationController
     @project.user_id = current_user.id
     
     if @project.save
-      redirect_to exposition_projects_path(@exposition.year), :notice => "#{Project.model_name.human.humanize} guardado"
+      redirect_to exposition_projects_path(@exposition.year), 
+                  :notice => "#{Project.model_name.human.humanize} guardado"
     else
       render :new
     end
@@ -44,7 +39,9 @@ class ProjectsController < ApplicationController
   
     respond_to do |format|
       format.html
-      format.pdf { send_file @project.to_pdf, :type => 'application/pdf' }
+      format.pdf do
+        send_data @project.to_pdf, :filename => @project.filename, :type => 'application/pdf'
+      end
     end
   end
   
@@ -58,7 +55,8 @@ class ProjectsController < ApplicationController
     return unless owner_or_admin_logged_in?
     
     if @project.update_attributes(params[:project])
-      redirect_to exposition_projects_path(@project.exposition.year), :notice => "#{Project.model_name.human.humanize} guardado"
+      redirect_to exposition_projects_path(@project.exposition.year), 
+                  :notice => "#{Project.model_name.human.humanize} guardado"
     else
       render :edit
     end
@@ -67,15 +65,19 @@ class ProjectsController < ApplicationController
   def destroy
     @project = Project.find(params[:id], :include => :exposition)
     return unless owner_or_admin_logged_in?
+    
     @project.destroy
-    redirect_to exposition_projects_path(@project.exposition.year), :notice => "#{Project.model_name.human.humanize} eliminado"
+    redirect_to exposition_projects_path(@project.exposition.year), 
+                :notice => "#{Project.model_name.human.humanize} eliminado"
   end
   
   def prev
+    @project = Project.find_prev(params[:id], params[:exposition_id])
     render :show
   end
   
   def next
+    @project = Project.find_next(params[:id], params[:exposition_id])
     render :show
   end
   
@@ -91,9 +93,5 @@ class ProjectsController < ApplicationController
     else
       redirect_to exposition_projects_path(@project.exposition.year), :alert => "Acceso denegado!"
     end
-  end
-  
-  def authenticate_user_if_this_years_exposition(year)
-    authenticate_user!  if year == Date.today.year
   end
 end

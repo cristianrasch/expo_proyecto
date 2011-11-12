@@ -1,4 +1,4 @@
-# coding: utf-8
+# encoding: utf-8
 
 module ProjectUtils
   %w{faculties group_types expo_modes}.each do |method|

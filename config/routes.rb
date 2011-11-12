@@ -10,6 +10,8 @@ ExpoProyecto::Application.routes.draw do
         get "prev"
         get "next"
       end
+      
+      get :gallery, :on => :collection
     end
     resources :activities
   end

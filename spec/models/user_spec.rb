@@ -7,7 +7,7 @@ describe User do
       Factory(:project, :exposition => @exposition, :user => user)
     end
     
-    context "when user is admin" do
+    context "when user is an admin" do
       let(:user) { Factory(:user, :admin => true) }
       
       it "should not be deactivated" do

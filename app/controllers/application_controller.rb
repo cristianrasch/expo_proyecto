@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def ensure_admin_logged_in!
-    if basic_authenticated? && ! current_user.admin?
+    if basic_authenticated? && !current_user.admin?
       redirect_to(expositions_path, :alert => "Acceso denegado!")
       false
     end
@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
   def basic_authenticate
     authenticate_or_request_with_http_basic do |user, passwd|
       success = user == Conf.admin['user'] && passwd == Conf.admin['passwd']
-      current_user.update_attribute(:admin, true) if success && current_user && ! current_user.admin?
+      current_user.update_attribute(:admin, true) if success && current_user && !current_user.admin?
       success
     end
   end

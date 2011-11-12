@@ -20,13 +20,12 @@ class User < ActiveRecord::Base
   end
   
   def self.deactivate_expired_accounts
-    expositions = Exposition.where(["end_date < ? and users_deactivated = ?", Date.today, false])
-    exposition_ids = expositions.map(&:id)
+    exposition_ids = Exposition.where(["end_date < ? and users_deactivated = ?", Date.today, false]).map(&:id)
     
-    unless exposition_ids.empty?
-      not_admin.where(:projects => {:exposition_id => exposition_ids}).joins(:projects).readonly(false).find_each do |user|
-        user.active = false
-        user.save
+    if exposition_ids.present?
+      not_admin.where(:projects => {:exposition_id => exposition_ids}).joins(:projects).
+                readonly(false).find_each do |user|
+        user.update_attribute :active, false
       end
       
       Exposition.update_all(["users_deactivated = ?", true], :id => exposition_ids)

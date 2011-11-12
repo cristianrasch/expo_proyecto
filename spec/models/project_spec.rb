@@ -38,7 +38,7 @@ describe Project do
   
   it "should return a valid pdf filename" do
     project = Factory(:project, :title => 'my n1f7y, little project')
-    filename = project.send(:pdf_filename)
+    filename = project.filename
     filename.should include(project.exposition.year.to_s)
     filename.should match(/my_n1f7y__little_project/i)
   end
@@ -58,10 +58,7 @@ describe Project do
   end
   
   it "should return a PDF representation of itself" do
-    project = Factory(:project)
-    pdf_file = project.to_pdf
-    pdf_file.should_not be_nil
-    File.exists?(pdf_file).should be_true
+    Factory(:project).to_pdf.should_not be_blank
   end
   
   describe "when paginating projects" do

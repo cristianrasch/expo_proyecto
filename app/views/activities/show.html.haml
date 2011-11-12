@@ -2,16 +2,11 @@
 = content_for :sidebar_links, render('sidebar_links')
 
 %p
-  %strong= Activity.human_attribute_name(:date)
+  %strong= Activity.human_attribute_name(:starts_at)
   %br/
-  = l(@activity.date)
+  = l @activity.starts_at, :format => :short
 
 %p
-  %strong= Activity.human_attribute_name(:from)
+  %strong= Activity.human_attribute_name(:ends_at)
   %br/
-  #{@activity.from}
-  
-%p
-  %strong= Activity.human_attribute_name(:to)
-  %br/
-  #{@activity.to}
+  = l @activity.ends_at, :format => :short

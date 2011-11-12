@@ -64,8 +64,8 @@ es-AR:
       long: "%A, %d de %B de %Y"
   time:
     formats:
-      short: "%d de %b a las %H:%M hrs"
-      default: "%a, %d de %b de %Y a las %H:%M:%S %Z"
+      short: "%d/%m, %H:%M hs"
+      default: "%d/%m/%Y %H:%M"
       long: "%A, %d de %B de %Y a las %I:%M %p"
     am: "am"
     pm: "pm"
@@ -213,9 +213,10 @@ es-AR:
         name: Nombre
       activity:
         title: Título
-        date: Fecha
-        from: Hora desde
-        to: Hora hasta
+        starts_at: Fecha de inicio
+        ends_at: Fecha de fin
+        from: Hora de inicio
+        to: Hora de fin
       user:
         email: Correo electrónico
         password: Contraseña

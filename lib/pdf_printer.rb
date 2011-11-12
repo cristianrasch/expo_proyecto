@@ -11,9 +11,7 @@ module PDFPrinter
         doc.start_new_page if i < projects.length - 1
       end
       
-      projects_file = File.join(Dir.tmpdir, 'proyectos.pdf')
-      doc.render_file projects_file
-      projects_file
+      doc.render
     end
   
     def print_tags(projects)
@@ -49,17 +47,15 @@ module PDFPrinter
         end
       end
         
-      tags_file = File.join(Dir.tmpdir, 'etiquetas.pdf')
-      doc.render_file tags_file
-      tags_file
+      doc.render
     end
     
     def print_requirements(projects)
       doc = Prawn::Document.new(:page_size => "A4", :page_layout => :landscape)
-      cells = [[Project.model_name.human.humanize, Project.human_attribute_name(:requirements), 
-                Project.human_attribute_name(:lab_gear), Project.human_attribute_name(:sockets_count), 
-                Project.human_attribute_name(:needs_projector), Project.human_attribute_name(:needs_screen),      
-                Project.human_attribute_name(:needs_poster_hanger)]]
+      cells = [[Project.model_name.human.humanize]]
+      cells.first.concat %w(requirements lab_gear sockets_count 
+                            needs_projector needs_screen 
+                            needs_poster_hanger).map { |attr| Project.human_attribute_name attr }
       
       projects.each do |pr|
         cells << [pr.title, pr.requirements, pr.lab_gear, pr.sockets_count.zero? ? nil : pr.sockets_count,
@@ -70,12 +66,10 @@ module PDFPrinter
         row(0).style :font_style => :bold, :align => :center
       end
       
-      requirements_file = File.join(Dir.tmpdir, 'requisitos.pdf')
-      doc.render_file requirements_file
-      requirements_file
+      doc.render
     end
   end
-  
+    
   private
   
   TAG_WIDTH = cm2pt(6.4)

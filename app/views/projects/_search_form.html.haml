@@ -1,0 +1,30 @@
+#search_form.hidden
+  = form_for @project, :url => exposition_projects_path(@exposition.year), :html => { :method => :get } do |f|
+    %table{:width => '100%'}
+      %tr
+        %td
+          = f.label :faculty
+          %br/
+          = f.select :faculty, options_for_select(faculty_options, @project.faculty), :include_blank => true
+        %td{:align => :right}
+          = f.label :subject
+          %br/
+          = f.text_field :subject, :size => 20
+      
+      %tr
+        %td
+          = f.label :group_type
+          %br/
+          = f.select :group_type, options_for_select(group_type_options, @project.group_type), 
+                     :include_blank => true
+        %td{:align => :right}
+          = f.label :expo_mode
+          %br/
+          = f.select :expo_mode, options_for_select(expo_mode_options, @project.expo_mode), 
+                     :include_blank => true
+      
+      %tr
+        %td
+          = f.submit 'Filtrar'
+          &nbsp;|&nbsp;
+          = link_to 'Todos', exposition_projects_path(@exposition.year)

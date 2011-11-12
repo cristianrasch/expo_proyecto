@@ -1,9 +1,32 @@
-= content_for :title, "#{Project.model_name.human.pluralize.humanize} de #{@exposition.name}"
+= content_for :title do 
+  = "#{@exposition.name} (#{pluralize @projects.size, Project.model_name.human})"
+  = link_to_function image_tag('search.png'), 'void(0)', :id => 'search_form_link'
 = content_for :sidebar_links, render('sidebar_links')
+
+= render 'search_form'
 
 - if @projects.empty?
   = not_found(Project)
 - else
-  = render "list", :projects => @projects
-
-= paginate @projects
+  %table.projects{:border => 1, :cellpadding => 2, :cellspacing => 2, :width => '100%'}
+    %tr
+      %th= Project.model_name.human.humanize
+      %th= shorten_label Project.human_attribute_name(:faculty)
+      %th= shorten_label Project.human_attribute_name(:subject)
+      %th= Project.human_attribute_name :group_type
+      %th= shorten_label Project.human_attribute_name(:expo_mode)
+      
+    - @projects.each do |project|
+      %tr
+        %td= link_to project.title, project
+        %td= project.fcty_desc
+        %td= truncate project.subject
+        %td= project.grp_desc
+        %td= project.mode_desc
+        
+= content_for :js do
+  :javascript
+    $('#search_form_link').click(function() {
+      $('#search_form').toggle();
+      $('#project_faculty:visible').focus();
+    });

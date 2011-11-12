@@ -6,30 +6,38 @@ describe ProjectsController do
   before { sign_in Factory(:user) }
   
   context "index action" do
-    it "should display a list of Exposition's projects" do
-      expo = Factory(:exposition)
-      2.times { Factory :project, :exposition => expo }
-      get :index, :exposition_id => expo.year
+    before { @expo = Factory(:exposition) }
+    
+    it "should search for projects" do
+      2.times { |i| Factory :project, :title => "Project ##{i}", :exposition => @expo }
+      get :index, :exposition_id => @expo.year, :project => { :title => 'project' }
       
       response.should be_success
       response.should render_template(:index)
       assigns[:exposition].should_not be_nil
       assigns[:projects].should_not be_nil
-      assigns[:projects].should_not be_empty
+      assigns[:projects].should have(2).projects
     end
     
     it "should concat all projects' pdf files into a single one" do
-      expo = Factory(:exposition)
-      2.times { Factory :project, :exposition => expo }
-      pdf_file = File.join(Dir.tmpdir, 'proyectos.pdf')
-      File.delete(pdf_file) if File.exists?(pdf_file)
-      
-      get :index, :exposition_id => expo.year, :format => :pdf
+      2.times { Factory :project, :exposition => @expo }
+      get :index, :exposition_id => @expo.year, :format => :pdf
       
       response.should be_success
       assigns[:exposition].should_not be_nil
-      File.exists?(pdf_file).should be_true
     end
+  end
+  
+  it "should display a gallery of projects" do
+    expo = Factory(:exposition)
+    2.times { Factory :project, :exposition => expo }
+    get :gallery, :exposition_id => expo.year
+    
+    response.should be_success
+    response.should render_template(:gallery)
+    assigns[:exposition].should_not be_nil
+    assigns[:projects].should_not be_nil
+    assigns[:projects].should_not be_empty
   end
   
   it "should display a new Project form" do
@@ -175,30 +183,6 @@ describe ProjectsController do
     assigns[:project].should_not be_nil
     assigns[:project].should be_destroyed
     flash[:notice].should == "#{Project.model_name.human.humanize} eliminado"
-  end
-  
-  context "anonymous access" do
-    before { sign_out :user }
-    
-    it "should allow access to the list of projects" do
-      get :index, :exposition_id => Factory(:exposition).year
-      
-      response.should be_success
-    end
-    
-    it "should allow access to a project's page" do
-      get :show, :id => Factory(:project)
-      
-      response.should be_success   
-    end
-    
-    it "should deny access to a project's page if said project is in this year's exposition " do
-      exposition = Factory(:exposition, :year => Date.today.year)
-      get :show, :id => Factory(:project, :exposition => exposition)
-      
-      response.should be_redirect
-      response.should redirect_to(new_user_session_path)
-    end
   end
   
   [:prev, :next].each do |action|

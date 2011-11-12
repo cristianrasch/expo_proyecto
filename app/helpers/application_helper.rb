@@ -17,20 +17,15 @@ module ApplicationHelper
     link_to_function(name, "add_fields(this, '#{association}', '#{escape_javascript(fields)}')".html_safe)
   end
   
-  def expos_menu
-    expos = Exposition.order("year desc").all
-    lis = []
-    
-    if expos.empty?
-      lis = content_tag(:li, link_to("Nueva".html_safe, new_exposition_path))
-    else
-      lis = expos.map do |expo|
-        content_tag(:li) do
-          link_to expo.name, exposition_path(expo.year)
-        end
-      end.join.html_safe
-    end
-    
-    content_tag :ul, lis
+  def format_date(date)
+    l(date) if date
+  end
+  
+  def format_datetime(datetime)
+    l(datetime) if datetime
+  end
+  
+  def shorten_label(label)
+    label[0, label.index(/,|\s/)]
   end
 end
