@@ -209,6 +209,8 @@ es-AR:
         needs_projector_reason: Justificación de uso de proyector
         needs_screen_reason: Justificación de uso de pantalla
         needs_poster_hanger_reason: Justificación de uso de portaposter
+        approval_time: Tiempo de homologación
+        position: Posición
       author:
         name: Nombre
       activity:

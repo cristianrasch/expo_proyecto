@@ -36,6 +36,16 @@
   %strong= form.label(:expo_mode)
   %br/
   = form.select(:expo_mode, options_for_select(expo_mode_options, @project.expo_mode), :include_blank => true)
+
+%p.sumo{:class => @project.sumo_robot? ? '' : 'hidden'}
+  %strong= form.label(:approval_time)
+  %br/
+  = form.text_field(:approval_time, :size => 5, :value => @project.approval_time)
+
+%p.sumo{:class => @project.sumo_robot? ? '' : 'hidden'}
+  %strong= form.label(:position)
+  %br/
+  = form.text_field(:position, :size => 5)
   
 %p
   %strong= form.label(:description)
@@ -111,5 +121,12 @@
           $('#project_other_group').focus();
         } else
           $('#project_other_group').hide();
+      });
+      
+      $('#project_expo_mode').change(function() {
+        if($('option:selected', this).text() == 'Robot sumo')
+          $('.sumo').removeClass('hidden');
+        else
+          $('.sumo').addClass('hidden');
       });
     });

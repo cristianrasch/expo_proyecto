@@ -17,6 +17,7 @@
       %th= shorten_label Project.human_attribute_name(:expo_mode)
       
     - @projects.each do |project|
+      - p project.inspect
       %tr
         %td= link_to project.title, project
         %td= project.fcty_desc

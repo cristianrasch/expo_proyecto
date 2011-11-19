@@ -19,5 +19,9 @@ group :test, :development do
   gem 'ffaker'
 end
 
+group :development do
+  gem 'heroku'
+  gem 'taps'
+end
+
 gem 'sqlite3', :group => :test
-gem 'heroku', :group => :development

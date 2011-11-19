@@ -93,4 +93,18 @@ describe Project do
       end
     end
   end
+  
+  context "approval_time accessor methods" do
+    before { @project = Factory.build(:project, :expo_mode => Conf.expo_modes['ROBOT SUMO']) }
+    
+    it "should format the read attr" do
+      @project.approval_time = '2:34'
+      @project.approval_time.should == '02:34'
+    end
+    
+    it "should turn time into seconds" do
+      @project.approval_time = '2:10'
+      @project.send(:read_attribute, :approval_time).should == 130
+    end
+  end
 end

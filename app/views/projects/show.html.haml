@@ -34,6 +34,7 @@
   %strong= Project.human_attribute_name(:expo_mode)
   %br/
   = expo_mode_desc(@project.expo_mode)
+  = robot_info @project
   
 %p
   %strong= Project.human_attribute_name(:description)

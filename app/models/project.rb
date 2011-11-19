@@ -40,7 +40,7 @@ class Project < ActiveRecord::Base
                   :competes_to_win_prizes, :authors_attributes, :image, :image_cache, :remove_image,
                   :requirements, :lab_gear, :sockets_count, :needs_projector, :needs_projector_reason,
                   :needs_screen, :needs_screen_reason, :needs_poster_hanger, :needs_poster_hanger_reason,
-                  :other_faculty, :other_group, :remove_image
+                  :other_faculty, :other_group, :remove_image, :approval_time, :position
   
   has_attached_file :image,
                     :styles => { :small => "320x200>", :thumb => "100x100>" },
@@ -78,6 +78,31 @@ class Project < ActiveRecord::Base
         write_attribute method, need
       end
     end
+  end
+  
+  def approval_time=(time)
+    if sumo_robot? && time =~ /(\d{1,2}):(\d{1,2})/
+      t = $1.to_i.minutes.to_i + $2.to_i
+      write_attribute :approval_time, t
+    end
+  end
+  
+  def approval_time
+    t = read_attribute(:approval_time)
+    if t
+      m, s = t/60, t%60
+      "#{"%02d" % m}:#{"%02d" % s}"
+    else
+      '00:00'
+    end
+  end
+  
+  def approval_time?
+    approval_time != '00:00'
+  end
+  
+  def position=(pos)
+    write_attribute :position, :pos if sumo_robot?
   end
   
   # {"0"=>{"name"=>"Cristian", "id"=>"16", "_destroy"=>"1"}}
@@ -218,7 +243,7 @@ SQL
   end
   
   def grp_desc
-    group_type_desc(faculty) + (other_group.present? ? " (#{other_group})" : '')
+    group_type_desc(group_type) + (other_group.present? ? " (#{other_group})" : '')
   end
   
   def mode_desc
@@ -227,6 +252,10 @@ SQL
   
   def filename
     "#{exposition.year}-#{title.gsub(/\W/, '_')}.pdf"
+  end
+  
+  def sumo_robot?
+    expo_mode == Conf.expo_modes['ROBOT SUMO']
   end
   
   private

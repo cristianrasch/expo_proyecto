@@ -16,4 +16,14 @@ module ProjectsHelper
     matches = contact.scan(email_reg_exp)
     matches.inject(contact) { |a, e| a.gsub(e, e.gsub('@', '__AT__')) }
   end
+  
+  def robot_info(project)
+    if project.sumo_robot? && (project.approval_time? || project.position)
+      info = '('
+      info << "#{Project.human_attribute_name(:approval_time).downcase}: #{project.approval_time}" if project.approval_time?
+      info << ', ' if project.approval_time? && project.position
+      info << "#{Project.human_attribute_name(:position).downcase}: #{@project.position}" if project.position
+      info << ')'
+    end
+  end
 end
