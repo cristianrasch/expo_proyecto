@@ -3,7 +3,7 @@
 module ProjectUtils
   %w{faculties group_types expo_modes}.each do |method|
     define_method("#{method.singularize}_desc") do |value|
-      downcase_accented_vowels(Conf.send(method).key(value).humanize)
+      downcase_accented_vowels(Conf.send(method).key(value).to_s.humanize)
     end
   end
   
