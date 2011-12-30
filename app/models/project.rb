@@ -42,23 +42,10 @@ class Project < ActiveRecord::Base
                   :needs_screen, :needs_screen_reason, :needs_poster_hanger, :needs_poster_hanger_reason,
                   :other_faculty, :other_group, :remove_image, :approval_time, :position
   
-  if Rails.env.production?
-    has_attached_file :image,
-                      :styles => { :small => "320x200>", :thumb => "100x100>" },
-                      :default_url => "/images/default.gif",
-                      :path => "/public_html/expo_proyecto/:attachment/:id/:style/:filename",
-                      :url => "http://lacie-unlam.org/expo_proyecto/:attachment/:id/:style/:filename",
-                      :storage => :ftp,
-                      :ftp_credentials => Rails.root.join("config", "paperclipftp.yaml"),
-                      :ftp_passive_mode => true,
-                      :ftp_timeout => 90,
-                      :ftp_verify_size_on_upload => false,
-                      :ftp_debug_mode => false
-  else
-    has_attached_file :image,
-                      :styles => { :small => "320x200>", :thumb => "100x100>" },
-                      :default_url => "/images/default.gif"
-  end
+  has_attached_file :image,
+                    :styles => { :small => '320x200>', :thumb => '100x100>' },
+                    :default_url => '/images/default.gif',
+                    :path => ':rails_root/public/system/:attachment/:id/:style/:filename'
   
   %w[faculty group].each do |attr|
     before_save "clear_other_#{attr}_if_not_required"
