@@ -6,7 +6,7 @@ gem 'haml'
 gem 'rake', '0.8.7'
 gem 'kaminari'
 gem 'rmagick'
-gem "paperclip", "~> 2.3"
+gem 'paperclip', '~> 2.3'
 gem 'paperclipftp'
 gem 'prawn'
 gem 'devise'
@@ -20,8 +20,9 @@ group :test, :development do
 end
 
 group :development do
-  gem 'heroku'
-  gem 'taps'
+  # gem 'heroku'
+  # gem 'taps'
+  gem 'capistrano'
 end
 
 gem 'sqlite3', :group => :test

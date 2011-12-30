@@ -50,19 +50,19 @@ ActiveRecord::Schema.define(:version => 20111119152624) do
 
   create_table "projects", :force => true do |t|
     t.string   "title"
-    t.integer  "faculty"
+    t.integer  "faculty",                    :limit => 2
     t.string   "subject"
-    t.integer  "group_type"
-    t.boolean  "competes_to_win_prizes",     :default => false
+    t.integer  "group_type",                 :limit => 2
+    t.boolean  "competes_to_win_prizes",                  :default => false
     t.string   "contact"
-    t.integer  "expo_mode"
+    t.integer  "expo_mode",                  :limit => 2
     t.text     "description"
     t.integer  "exposition_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "requirements"
     t.text     "lab_gear"
-    t.integer  "sockets_count",              :default => 0
+    t.integer  "sockets_count",                           :default => 0
     t.text     "needs_projector_reason"
     t.text     "needs_screen_reason"
     t.text     "needs_poster_hanger_reason"

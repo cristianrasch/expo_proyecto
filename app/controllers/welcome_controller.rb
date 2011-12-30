@@ -3,6 +3,6 @@ class WelcomeController < ApplicationController
   
   def index
     @exposition = Exposition.sorted.first
-    @activities = @exposition.activities
+    @activities = @exposition.try(:activities) || []
   end
 end
