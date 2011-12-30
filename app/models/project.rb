@@ -1,7 +1,5 @@
 # encoding: utf-8
 
-require 'open-uri'
-
 class Project < ActiveRecord::Base
   include ProjectUtils
   include Prawn::Measurements
@@ -43,9 +41,8 @@ class Project < ActiveRecord::Base
                   :other_faculty, :other_group, :remove_image, :approval_time, :position
   
   has_attached_file :image,
-                    :styles => { :small => '320x200>', :thumb => '100x100>' },
-                    :default_url => '/images/default.gif',
-                    :path => ':rails_root/public/system/:attachment/:id/:style/:filename'
+                    :styles => { :small => "320x200>", :thumb => "100x100>" },
+                    :default_url => '/images/default.gif'
   
   %w[faculty group].each do |attr|
     before_save "clear_other_#{attr}_if_not_required"
@@ -71,6 +68,10 @@ class Project < ActiveRecord::Base
         write_attribute method, need
       end
     end
+  end
+  
+  def self.default_image_path
+    File.join Rails.public_path, 'images', 'logo.png'
   end
   
   def approval_time=(time)
@@ -135,14 +136,10 @@ class Project < ActiveRecord::Base
     doc.text 'Departamento de Ingeniería e Investigaciones Tecnológicas', :size => 10, :align => :center
     doc.move_down 20
     if image?
-      begin
-        doc.float { doc.image open(image.url(:thumb)), :fit => [102, 79] }
-        doc.image File.join(Rails.public_path, 'images', 'logo.png'), :position => :right, :scale => 0.3
-      rescue OpenURI::HTTPError
-        doc.image File.join(Rails.public_path, 'images', 'logo.png'), :position => :center, :scale => 0.3
-      end
+      doc.float { doc.image image_path, :fit => [102, 79] }
+      doc.image self.class.default_image_path, :position => :right, :scale => 0.3
     else
-      doc.image File.join(Rails.public_path, 'images', 'logo.png'), :position => :center, :scale => 0.3
+      doc.image self.class.default_image_path, :position => :center, :scale => 0.3
     end
     doc.move_down 10
     doc.text exposition.name, :size => 16, :style => :bold
@@ -249,6 +246,10 @@ SQL
   
   def sumo_robot?
     expo_mode == Conf.expo_modes['ROBOT SUMO']
+  end
+  
+  def image_path(size = :thumb)
+    File.join(Rails.public_path, (Rails.env.production? ? 'expo_proyecto' : ''), image.url(size))
   end
   
   private

@@ -1,3 +1,2 @@
-# rvm_trust_rvmrcs_flag=1
+rvm_trust_rvmrcs_flag=1
 rvm ruby-1.9.2-p290@expo_proyecto --create
-# rvm ruby-1.9.3-p0@expo_proyecto --create
