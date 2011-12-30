@@ -16,7 +16,7 @@ set :application, "expo_proyecto"
 set :scm, :git
 set :repository,  "git@github.com:cristianrasch/expo_proyecto.git"
 
-set :user, 'ec2-user'
+# set :user, 'ec2-user'
 set :use_sudo, false
 set :deploy_via, :remote_cache
 set :deploy_to, "/var/www/#{application}"
