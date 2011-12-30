@@ -251,7 +251,7 @@ SQL
   def image_path(size = :thumb)
     relative_path = image.url(size)
     relative_path.slice!(/\?\d+/)
-    File.join(Rails.public_path, (Rails.env.production? ? 'expo_proyecto' : ''), relative_path)
+    File.join(Rails.public_path, relative_path)
   end
   
   private
