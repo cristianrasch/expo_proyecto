@@ -78,7 +78,6 @@ GEM
       activesupport (>= 2.3.2)
       cocaine (>= 0.0.2)
       mime-types
-    paperclipftp (0.2.4)
     pdf-reader (0.10.0)
       Ascii85 (~> 1.0.0)
     pg (0.11.0)
@@ -143,7 +142,6 @@ DEPENDENCIES
   jquery-rails (>= 1.0.12)
   kaminari
   paperclip (~> 2.3)
-  paperclipftp
   pg
   prawn
   rails (= 3.0.10)
