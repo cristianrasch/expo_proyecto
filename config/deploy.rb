@@ -6,24 +6,25 @@ require 'bundler/capistrano'
 $:.unshift(File.expand_path('./lib', ENV['rvm_path']))
 
 # Load RVM's capistrano plugin.    
-require "rvm/capistrano"
+require 'rvm/capistrano'
 
 set :rvm_ruby_string, 'ruby-1.9.2-p290'
 # set :rvm_type, :user  # Don't use system-wide RVM
 
-set :application, "expo_proyecto"
+set :server, 'virpus'
+set :application, 'expo_proyecto'
 
 set :scm, :git
-set :repository,  "git@github.com:cristianrasch/expo_proyecto.git"
+set :repository, 'git@github.com:cristianrasch/expo_proyecto.git'
 
 # set :user, 'ec2-user'
 set :use_sudo, false
 set :deploy_via, :remote_cache
 set :deploy_to, "/var/www/#{application}"
 
-role :web, "ec2"                          # Your HTTP server, Apache/etc
-role :app, "ec2"                          # This may be the same as your `Web` server
-role :db,  "ec2", :primary => true        # This is where Rails migrations will run
+role :web, server                          # Your HTTP server, Apache/etc
+role :app, server                          # This may be the same as your `Web` server
+role :db,  server, :primary => true        # This is where Rails migrations will run
 
 desc "Symlink the database config file from shared
       directory to current release directory."
