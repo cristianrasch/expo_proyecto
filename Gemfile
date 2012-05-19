@@ -13,15 +13,10 @@ gem 'pg'
 # gem 'whenever', :require => false
 
 group :test, :development do
-  gem "rspec-rails", "~> 2.6"
+  gem 'rspec-rails', '~> 2.6'
   gem 'factory_girl_rails'
   gem 'ffaker'
 end
 
-group :development do
-  #gem 'heroku'
-  # gem 'taps'
-  gem 'capistrano'
-end
-
+gem 'capistrano', :group => development
 gem 'sqlite3', :group => :test
