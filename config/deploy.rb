@@ -2,14 +2,11 @@ require 'bundler/capistrano'
 # set :whenever_command, "bundle exec whenever"
 # require "whenever/capistrano"
 
-# Add RVM's lib directory to the load path.
-$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
-
 # Load RVM's capistrano plugin.    
 require 'rvm/capistrano'
 
 set :rvm_ruby_string, 'ruby-1.9.2-p290'
-# set :rvm_type, :user  # Don't use system-wide RVM
+set :rvm_type, :system
 
 # set :server, 'virpus'
 set :application, 'expo_proyecto'

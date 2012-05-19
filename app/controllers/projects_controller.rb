@@ -1,4 +1,7 @@
 class ProjectsController < ApplicationController
+  PUBLIC_ACTIONS = [:index, :gallery, :show, :prev, :next]
+  
+  skip_before_filter :authenticate_user!, :only => PUBLIC_ACTIONS
   before_filter :fetch_exposition, :only => [:index, :gallery, :new]
   
   def index

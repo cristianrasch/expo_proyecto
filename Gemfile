@@ -18,5 +18,9 @@ group :test, :development do
   gem 'ffaker'
 end
 
-gem 'capistrano', :group => :development
+group :development do
+  gem 'capistrano'
+  gem 'rvm-capistrano'
+end
+
 gem 'sqlite3', :group => :test
