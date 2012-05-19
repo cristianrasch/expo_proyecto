@@ -18,5 +18,5 @@ group :test, :development do
   gem 'ffaker'
 end
 
-gem 'capistrano', :group => development
+gem 'capistrano', :group => :development
 gem 'sqlite3', :group => :test
