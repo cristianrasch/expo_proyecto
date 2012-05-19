@@ -8,6 +8,5 @@ public/*.pdf
 config/database.yml
 public/system
 public/uploads
-public/expo_proyecto
 vendor/bundle
 expo_proyecto.komodoproject

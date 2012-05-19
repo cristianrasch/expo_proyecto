@@ -43,8 +43,8 @@ class Project < ActiveRecord::Base
   has_attached_file :image,
                     :styles => { :small => "320x200>", :thumb => "100x100>" },
                     :default_url => '/images/default.gif',
-                    :path  => ':rails_root/public/expo_proyecto/system/:attachment/:id/:style/:filename',
-                    :url  => '/expo_proyecto/system/:attachment/:id/:style/:filename'
+                    :path  => ':rails_root/public/system/:attachment/:id/:style/:filename',
+                    :url  => '/system/:attachment/:id/:style/:filename'
 
   %w[faculty group].each do |attr|
     before_save "clear_other_#{attr}_if_not_required"
