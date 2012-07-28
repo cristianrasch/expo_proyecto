@@ -1,14 +1,14 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.10'
+gem 'rails', '3.0.16'
 gem 'jquery-rails', '>= 1.0.12'
 gem 'haml'
-gem 'rake', '0.8.7'
+gem 'rake'#, '0.8.7'
 gem 'kaminari'
 gem 'rmagick'
-gem 'paperclip', '~> 2.3'
+gem 'paperclip'#, '~> 2.3'
 gem 'prawn'
-gem 'devise'
+gem 'devise', '~> 1.5'
 gem 'pg'
 # gem 'whenever', :require => false
 
