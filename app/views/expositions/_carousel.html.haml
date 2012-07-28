@@ -1,0 +1,21 @@
+- unless projects.empty?
+  .slides-container
+    .flexslider
+      %ul.slides
+        - projects.each do |project|
+          %li= image_tag project.image.url(:small)
+  
+  = content_for :styles, stylesheet_link_tag("flexslider")
+  = content_for :js do
+    = javascript_include_tag "jquery.flexslider-min"
+    :javascript
+      $(document).ready(function () {
+        $('.flexslider').flexslider({
+          animation: "slide",
+          itemWidth: 270,
+          minItems: 1,
+          maxItems: 1,
+          slideshowSpeed: 3000,
+          pauseOnHover: true
+        });
+      });

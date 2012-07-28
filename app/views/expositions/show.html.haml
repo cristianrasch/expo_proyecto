@@ -11,17 +11,4 @@
   %br/
   = l(@exposition.end_date)
 
-- unless @exposition.projects.empty?  
-  %center
-    .flexslider
-      %ul.slides
-        - @projects.each do |project|
-          %li= image_tag project.image.url(:small)
-  
-= content_for :styles, stylesheet_link_tag("flexslider")
-= content_for :js do
-  = javascript_include_tag "jquery.flexslider-min"
-  :javascript
-    $(document).ready(function () {
-      $('.flexslider').flexslider({slideshowSpeed: 3000, randomize: true, pauseOnHover: true});
-    });
+= render partial: 'carousel', locals: { projects: @projects.sample(14) }

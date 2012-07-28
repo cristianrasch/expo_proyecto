@@ -415,3 +415,8 @@ table.projects td {
 #search_form {
   padding-bottom: 10px;
 }
+
+div.slides-container {
+	width: 60%;
+	margin: 0px auto;
+}
