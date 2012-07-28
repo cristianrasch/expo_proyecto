@@ -12,7 +12,7 @@ set :rvm_type, :system
 set :application, 'expo_proyecto'
 
 set :scm, :git
-set :repository, 'git@github.com:cristianrasch/expo_proyecto.git'
+set :repository, 'https://github.com/cristianrasch/expo_proyecto.git'
 
 # set :user, 'ec2-user'
 set :use_sudo, false
