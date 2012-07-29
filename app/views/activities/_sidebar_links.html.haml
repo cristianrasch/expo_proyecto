@@ -1,8 +1,12 @@
 %ul
-  %li= link_to("Nueva #{Activity.model_name.human}", new_exposition_activity_path((@exposition ? @exposition : @activity.exposition).year)) if controller.action_name == 'index'
+  - if controller.action_name == 'index'
+    %li= link_to("Nueva #{Activity.model_name.human}", new_exposition_activity_path((@exposition ? @exposition : @activity.exposition).year))
+    %li= link_to(Exposition.model_name.human.humanize, exposition_path(@exposition.year))
+  
   - if controller.action_name == 'show'
-    %li= link_to(Activity.model_name.human.pluralize.humanize, exposition_activities_path((@exposition ? @exposition : @activity.exposition).year))
     %li= link_to('Editar', edit_activity_path(@activity))
     %li= link_to('Eliminar', @activity, :method => :delete, :confirm => "¿Seguro desea eliminar la #{Activity.model_name.human}?")
-  %li= link_to(Exposition.model_name.human.humanize, exposition_path(@exposition.year)) if controller.action_name == 'index'
-  %li= link_to('Volver', :back)
+    %li= link_to(Activity.model_name.human.pluralize.humanize, exposition_activities_path((@exposition ? @exposition : @activity.exposition).year))
+  
+  - unless %w(index show).include?(controller.action_name)
+    %li= link_to('Volver', :back)

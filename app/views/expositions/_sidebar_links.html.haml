@@ -1,18 +1,24 @@
 %ul
-  %li= link_to("Nueva #{Exposition.model_name.human}", new_exposition_path) if controller.action_name == 'index' && current_user.try(:admin?)
+  - if controller.action_name == 'index' && current_user.try(:admin?)
+    %li= link_to("Nueva #{Exposition.model_name.human}", new_exposition_path)
+  
   - if controller.action_name == 'show'
-    %li= link_to(Exposition.model_name.human.pluralize.humanize, expositions_path)
     %li
       = link_to(Project.model_name.human.pluralize.humanize, exposition_projects_path(@exposition.year))
       - if current_user.try(:admin?)
         = link_to '(PDFs)', exposition_projects_path(@exposition.year, :format => :pdf)
+        
     %li= link_to('Galería', gallery_exposition_projects_path(@exposition.year))
+    
     - if current_user.try(:admin?)
       %li= link_to('Etiquetas', exposition_tags_path(@exposition.year))
       %li= link_to('Requisitos', exposition_requirements_path(@exposition.year))
-    - if current_user.try(:admin?)
       %li= link_to(Message.model_name.human.pluralize.humanize, new_message_path(:exposition_id => @exposition.id))
       %li= link_to(Activity.model_name.human.pluralize.humanize, exposition_activities_path(@exposition.year))
       %li= link_to('Editar', edit_exposition_path(@exposition.year))
       %li= link_to('Eliminar', @exposition, :method => :delete, :confirm => "¿Seguro desea eliminar la #{Exposition.model_name.human}?")
-  %li= link_to('Volver', :back)
+      
+    %li= link_to(Exposition.model_name.human.pluralize.humanize, expositions_path)
+  
+  - unless %w(index show).include?(controller.action_name)
+    %li= link_to('Volver', :back)
