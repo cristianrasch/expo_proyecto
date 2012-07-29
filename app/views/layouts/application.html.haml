@@ -2,7 +2,7 @@
 %html
   %head
     %title ExpoProyecto
-    = stylesheet_link_tag 'application', 'fg.menu', 'ui.core', 'ui.theme'
+    = stylesheet_link_tag 'application'
     = yield :styles
     = csrf_meta_tag
   %body
@@ -25,5 +25,5 @@
     #footer
       %p Copyright (c) #{Date.today.year} #{link_to('LACIE', 'http://lacie-unlam.org/')}. Todos los derechos reservados. Diseño por <a href="http://www.freecsstemplates.org/">Free CSS Templates</a>
     
-    = javascript_include_tag :defaults, 'fg.menu'
+    = javascript_include_tag :defaults
     = yield :js

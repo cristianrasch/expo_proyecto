@@ -5,11 +5,12 @@
 
 %p La muestra contempla además la realización de demostraciones, charlas técnicas, actividades afines y la presencia de empresas e instituciones vinculadas a la ingeniería.
 
-%strong= Activity.model_name.human.pluralize.humanize
-%ul
-  - if @activities.empty?
-    %li= not_found(Activity)
-  = render :partial => 'activity', :collection => @activities
+- cache @activities do
+  %strong= Activity.model_name.human.pluralize.humanize
+  %ul
+    - if @activities.empty?
+      %li= not_found(Activity)
+    = render :partial => 'activity', :collection => @activities
 
 %strong Inscripción de proyectos
 

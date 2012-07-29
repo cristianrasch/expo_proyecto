@@ -42,7 +42,7 @@ class Exposition < ActiveRecord::Base
     res.order("created_at desc")
   end
   
-  private
+private
   
   def set_default_name
     self.name = "ExpoProyecto #{year}" if name.blank?

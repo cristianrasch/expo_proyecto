@@ -3,7 +3,7 @@ class ExpositionsController < ApplicationController
   
   skip_before_filter :authenticate_user!, :only => PUBLIC_ACTIONS
   before_filter :ensure_admin_logged_in!, :except => PUBLIC_ACTIONS
-
+  
   def index
     @expositions = Exposition.sorted.page(params[:page])
   end

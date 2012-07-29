@@ -386,6 +386,10 @@ ul.top_spaced {
   display: none;
 }
 
+.visible {
+  display: block;
+}
+
 .right {
   float: right;
 }
@@ -419,4 +423,8 @@ table.projects td {
 div.slides-container {
 	width: 60%;
 	margin: 0px auto;
+}
+
+li#current_session {
+	display: none;
 }

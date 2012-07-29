@@ -1,4 +1,4 @@
-#search_form.hidden
+#search_form{class: params[:project] ? 'visible' : 'hidden'}
   = form_for @project, :url => exposition_projects_path(@exposition.year), :html => { :method => :get } do |f|
     %table{:width => '100%'}
       %tr

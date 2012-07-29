@@ -10,3 +10,4 @@ public/system
 public/uploads
 vendor/bundle
 expo_proyecto.komodoproject
+public/*.html

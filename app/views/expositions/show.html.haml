@@ -1,14 +1,35 @@
 = content_for :title, @exposition.name
 = content_for :sidebar_links, render('sidebar_links')
 
-%p
-  %strong= Exposition.human_attribute_name(:start_date)
-  %br/
-  = l(@exposition.start_date)
+- cache @exposition do
+  %p
+    %strong= Exposition.human_attribute_name(:start_date)
+    %br/
+    = l(@exposition.start_date)
+    
+  %p
+    %strong= Exposition.human_attribute_name(:end_date)
+    %br/
+    = l(@exposition.end_date)
   
-%p
-  %strong= Exposition.human_attribute_name(:end_date)
-  %br/
-  = l(@exposition.end_date)
-
-= render partial: 'carousel', locals: { projects: @projects.sample(14) }
+  - unless @projects.empty?
+    .slides-container
+      .flexslider
+        %ul.slides
+          - @projects.sample(14).each do |project|
+            %li= image_tag project.image.url(:small)
+  
+= content_for :styles, stylesheet_link_tag("flexslider")
+= content_for :js do
+  = javascript_include_tag "jquery.flexslider-min"
+  :javascript
+    $(document).ready(function () {
+      $('.flexslider').flexslider({
+        animation: "slide",
+        itemWidth: 270,
+        minItems: 1,
+        maxItems: 1,
+        slideshowSpeed: 3000,
+        pauseOnHover: true
+      });
+    });

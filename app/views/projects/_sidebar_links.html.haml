@@ -8,4 +8,7 @@
       %li= link_to('Editar', edit_project_path(@project))
       %li= link_to('Eliminar', @project, :method => :delete, :confirm => "¿Seguro desea eliminar el #{Project.model_name.human}?")
   %li= link_to(Exposition.model_name.human.humanize, exposition_path(@exposition.year)) if controller.action_name == 'index'
+  - if controller.action_name == 'gallery'
+    %li= link_to('Reiniciar', gallery_exposition_projects_path(@exposition.year))
+    %li= link_to('Expo', exposition_path(@exposition.year))
   %li= link_to('Volver', :back)

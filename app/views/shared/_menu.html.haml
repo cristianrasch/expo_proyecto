@@ -1,14 +1,18 @@
 #menu
   %ul
     %li{:class => current_page?(root_path) ? 'current_page_item' : ''}= link_to('Inicio', root_path)
-    %li{:class => current_page?(root_path) ? '' : 'current_page_item'}= link_to(Exposition.model_name.human.pluralize.humanize, expositions_path)
-    %li
-      - if user_signed_in?
-        = link_to "Salir", destroy_user_session_path
-      - else
-        = link_to "Ingresar", user_session_path
+    %li{:class => current_page?(root_path) ? '' : 'current_page_item'}
+      = link_to(Exposition.model_name.human.pluralize.humanize, expositions_path)
+    %li#current_session
         
   %span.right
     = image_tag "unlam_logo.png", :class => "logo", :align => "left"
     %h3 ExpoProyecto UNLaM
-/ end #menu
+
+= content_for :js do
+  :javascript
+    $.get('#{current_session_path}', function(data) {
+      var li = $('li#current_session');
+      li.html(data);
+      li.show();
+    });

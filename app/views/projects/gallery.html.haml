@@ -1,9 +1,10 @@
 = content_for :title, "#{Project.model_name.human.pluralize.humanize} de #{@exposition.name}"
 = content_for :sidebar_links, render('sidebar_links')
 
-- if @projects.empty?
-  = not_found(Project)
-- else
-  = render "list", :projects => @projects
+- cache action: 'gallery', action_suffix: params[:page] do
+  - if @projects.empty?
+    = not_found(Project)
+  - else
+    = render "list", :projects => @projects
 
-= paginate @projects
+  = paginate @projects

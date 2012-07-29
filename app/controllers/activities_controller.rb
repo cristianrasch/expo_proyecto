@@ -2,6 +2,8 @@ class ActivitiesController < ApplicationController
   before_filter :ensure_admin_logged_in!
   before_filter :fetch_activity, :only => [:show, :edit, :update]
 
+  cache_sweeper :activity_sweeper, :only => [:create, :update, :destroy]
+
   def index
     @exposition = Exposition.find_by_year(params[:exposition_id])
     @activities = @exposition.activities
@@ -40,10 +42,10 @@ class ActivitiesController < ApplicationController
   end
   
   def destroy
-    @activity = Activity.find(params[:id], :include => :exposition)
-    @activity.delete
-    redirect_to(exposition_activities_path(@activity.exposition.year), 
-                :notice => "#{Activity.model_name.human.humanize} eliminada")
+    @activity = Activity.find(params[:id])
+    @activity.destroy
+    redirect_to exposition_activities_path(@activity.exposition.year), 
+                :notice => "#{Activity.model_name.human.humanize} eliminada"
   end
   
   private

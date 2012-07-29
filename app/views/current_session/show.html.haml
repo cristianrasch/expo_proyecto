@@ -1,0 +1,4 @@
+- if user_signed_in?
+  = link_to "Salir", destroy_user_session_path
+- else
+  = link_to "Ingresar", user_session_path

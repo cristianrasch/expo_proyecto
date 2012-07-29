@@ -4,6 +4,8 @@ class ProjectsController < ApplicationController
   skip_before_filter :authenticate_user!, :only => PUBLIC_ACTIONS
   before_filter :fetch_exposition, :only => [:index, :gallery, :new]
   
+  cache_sweeper :project_sweeper, only: [:create, :update, :destroy]
+  
   def index
     respond_to do |format|
       format.html do
@@ -38,7 +40,7 @@ class ProjectsController < ApplicationController
   end
   
   def show
-    @project = Project.find(params[:id], :include => [:exposition, :authors])
+    @project = Project.find(params[:id])
   
     respond_to do |format|
       format.html
@@ -49,7 +51,7 @@ class ProjectsController < ApplicationController
   end
   
   def edit
-    @project = Project.find(params[:id], :include => [:exposition, :authors])
+    @project = Project.find(params[:id])
     return unless owner_or_admin_logged_in?
   end
   
@@ -66,7 +68,7 @@ class ProjectsController < ApplicationController
   end
   
   def destroy
-    @project = Project.find(params[:id], :include => :exposition)
+    @project = Project.find(params[:id])
     return unless owner_or_admin_logged_in?
     
     @project.destroy

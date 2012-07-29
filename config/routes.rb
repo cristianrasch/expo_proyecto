@@ -1,5 +1,7 @@
 ExpoProyecto::Application.routes.draw do
 
+  match 'current_session' => 'current_session#show'
+
   get "requirements/index"
 
   devise_for :users
