@@ -9,5 +9,5 @@ config/database.yml
 public/system
 public/uploads
 vendor/bundle
-expo_proyecto.komodoproject
+*.komodoproject
 public/*.html

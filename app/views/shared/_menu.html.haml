@@ -1,8 +1,10 @@
 #menu
   %ul
     %li{:class => current_page?(root_path) ? 'current_page_item' : ''}= link_to('Inicio', root_path)
-    %li{:class => current_page?(root_path) ? '' : 'current_page_item'}
+    %li{:class =>  %w(welcome venue).include?(controller_name) ? '' : 'current_page_item'}
       = link_to(Exposition.model_name.human.pluralize.humanize, expositions_path)
+    %li{:class => current_page?(venue_index_path) ? 'current_page_item' : ''}
+      = link_to('Sede', venue_index_path)
     %li#current_session
         
   %span.right

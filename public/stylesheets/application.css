@@ -428,3 +428,7 @@ div.slides-container {
 li#current_session {
 	display: none;
 }
+
+img.venue {
+	margin-bottom: 10px;
+}

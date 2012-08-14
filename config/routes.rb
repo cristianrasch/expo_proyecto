@@ -1,4 +1,5 @@
 ExpoProyecto::Application.routes.draw do
+  get "venue/index"
 
   match 'current_session' => 'current_session#show'
 
