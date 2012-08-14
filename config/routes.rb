@@ -1,5 +1,5 @@
 ExpoProyecto::Application.routes.draw do
-  get "venue/index"
+  match "venue" => "welcome#venue"
 
   match 'current_session' => 'current_session#show'
 
@@ -24,7 +24,6 @@ ExpoProyecto::Application.routes.draw do
   
   resources :messages, :only => [:new, :create]
   
-  get "welcome/index"
   root :to => "welcome#index"
 
   # The priority is based upon order of creation:

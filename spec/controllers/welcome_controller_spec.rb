@@ -14,4 +14,11 @@ describe WelcomeController do
     assigns[:activities].should_not be_nil
     assigns[:activities].should_not be_empty
   end
+  
+  it "should show the venue information" do
+    get :venue
+    
+    response.should be_success
+    response.should render_template(:venue)
+  end
 end
