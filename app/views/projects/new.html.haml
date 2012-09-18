@@ -1,5 +1,26 @@
 = content_for :title, "Nuevo #{Project.model_name.human}"
 = content_for :sidebar_links, render('sidebar_links')
 
+%p Se pide por favor que en el nombre de proyecto se coloque un título que describa de qué trata el proyecto. El concepto de título es similar al que se usa en las publicaciones científicas al exponer un trabajo.
+
+%ul
+  %li 
+    %span.green CORRECTO: 
+    Sistema para registro de pacientes.
+  %li 
+    %span.green CORRECTO: 
+    Roku - Sistema para registro de pacientes.
+  %li 
+    %span.red INCORRECTO: 
+    Ruku (No dá idea de qué trata)
+  %li 
+    %span.red INCORRECTO: 
+    Sistema que permite el registro de pacientes con tratamientos medicinales complejos y evita que los mismos tengan que ir muy seguido al hospital.<br/>
+    (es más un resumen que un título).
+
+%p De esta forma el listado de proyectos permite identificar un proyecto según el interés del lector.
+
+%p Los títulos se ingresan en minúscula, salvo comienzo de oración, nombres propios, siglas, etc. No colocar todo el título en mayúscula.
+
 = form_for([@exposition, @project], :html => {:multipart => true}) do |f|
   = render f

@@ -107,4 +107,12 @@ describe Project do
       @project.send(:read_attribute, :approval_time).should == 130
     end
   end
+
+  it "should reject bmp images" do
+    project = Factory.build(:project)
+    project.image = Rails.root.join('spec/support/files/apple.bmp').open
+    
+    project.should be_invalid
+    project.errors[:image_content_type].should be_present
+  end
 end

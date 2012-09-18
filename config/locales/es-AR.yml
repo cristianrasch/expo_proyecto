@@ -199,7 +199,7 @@ es-AR:
         expo_mode: Modalidad de su exposición
         description: Descripción
         author_ids: Autores
-        image: Foto
+        image: Foto (jpg, png or gif)
         requirements: Requerimientos para exponer
         lab_gear: Instrumental de laboratorio
         sockets_count: Cantidad de enchufes
@@ -211,6 +211,8 @@ es-AR:
         needs_poster_hanger_reason: Justificación de uso de portaposter
         approval_time: Tiempo de homologación
         position: Posición
+        image_content_type: El tipo de la foto
+        image_file_size: El tamaño de la foto
       author:
         name: Nombre
       activity:

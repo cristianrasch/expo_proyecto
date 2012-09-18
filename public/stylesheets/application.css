@@ -432,3 +432,11 @@ li#current_session {
 img.venue {
 	margin-bottom: 10px;
 }
+
+span.green {
+	color: green;
+}
+
+span.red {
+	color: red;
+}
