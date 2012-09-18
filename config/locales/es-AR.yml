@@ -199,7 +199,7 @@ es-AR:
         expo_mode: Modalidad de su exposición
         description: Descripción
         author_ids: Autores
-        image: Foto (jpg, png or gif)
+        image: Foto (jpg, png or gif, hasta 2 MB)
         requirements: Requerimientos para exponer
         lab_gear: Instrumental de laboratorio
         sockets_count: Cantidad de enchufes
