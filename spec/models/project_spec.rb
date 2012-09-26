@@ -115,4 +115,11 @@ describe Project do
     project.should be_invalid
     project.errors[:image_content_type].should be_present
   end
+
+  it "should accept jpeg images" do
+    project = Factory.build(:project)
+    project.image = Rails.root.join('spec/support/files/cartel-led.jpeg').open
+    
+    project.should be_valid
+  end
 end

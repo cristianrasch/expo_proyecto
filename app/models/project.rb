@@ -46,7 +46,7 @@ class Project < ActiveRecord::Base
                     :path  => ':rails_root/public/system/:attachment/:id/:style/:filename',
                     :url  => '/system/:attachment/:id/:style/:filename'
 
-  validates_attachment_content_type :image, :content_type => [/jp?g/, /pjpeg/, /png/, /gif/]
+  validates_attachment_content_type :image, :content_type => [/jp.g/, /pjpeg/, /png/, /gif/]
   validates_attachment_size :image, :less_than => 1.megabyte
 
   %w[faculty group].each do |attr|
