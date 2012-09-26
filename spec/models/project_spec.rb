@@ -108,12 +108,14 @@ describe Project do
     end
   end
 
-  it "should reject bmp images" do
-    project = Factory.build(:project)
-    project.image = Rails.root.join('spec/support/files/apple.bmp').open
-    
-    project.should be_invalid
-    project.errors[:image_content_type].should be_present
+  {bmp: 'apple.bmp', gif: 'logo_multimarket.gif'}.each do |image_ext, test_fixture|
+    it "should reject #{image_ext} images" do
+      project = Factory.build(:project)
+      project.image = Rails.root.join("spec/support/files/#{test_fixture}").open
+      
+      project.should be_invalid
+      project.errors[:image_content_type].should be_present
+    end
   end
 
   it "should accept jpeg images" do
