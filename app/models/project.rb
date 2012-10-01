@@ -222,19 +222,24 @@ class Project < ActiveRecord::Base
   end
 
   def self.with_extra_needs
-    where <<SQL
+    sql = <<SQL
         requirements is not null or lab_gear is not null or sockets_count > 0 or
         needs_projector_reason is not null or needs_screen_reason is not null or
         needs_poster_hanger_reason is not null
 SQL
+    where(sql).reorder('faculty, created_at')
   end
 
   def remove_image=(remove)
     self.image = nil if remove == '1'
   end
 
-  def fcty_desc
-    faculty_desc(faculty) + (other_faculty.present? ? " (#{other_faculty})" : '')
+  def fcty_desc(fmt = :long)
+    if fmt == :long
+      faculty_desc(faculty) + (other_faculty.present? ? " (#{other_faculty})" : '')
+    else
+      faculty_desc(faculty).split(' ').last
+    end
   end
 
   def grp_desc

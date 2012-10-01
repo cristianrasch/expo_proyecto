@@ -58,7 +58,7 @@ module PDFPrinter
                             needs_poster_hanger).map { |attr| Project.human_attribute_name attr }
       
       projects.each do |pr|
-        cells << [pr.title, pr.requirements, pr.lab_gear, pr.sockets_count.zero? ? nil : pr.sockets_count,
+        cells << ["#{pr.title} (#{pr.fcty_desc(:short)})", pr.requirements, pr.lab_gear, pr.sockets_count.zero? ? nil : pr.sockets_count,
                   pr.needs_projector_reason, pr.needs_screen_reason, pr.needs_poster_hanger_reason]
       end
       
