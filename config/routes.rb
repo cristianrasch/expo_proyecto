@@ -23,6 +23,10 @@ ExpoProyecto::Application.routes.draw do
   match 'expos/:exposition_id/requirements' => 'requirements#index', :as => :exposition_requirements
   
   resources :messages, :only => [:new, :create]
+
+  namespace :qa do
+    post "db/reset"
+  end if Rails.env.qa?
   
   root :to => "welcome#index"
 

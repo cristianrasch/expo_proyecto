@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   
   before_filter :authenticate_user!
   
-  protected
+protected
 
   def ensure_admin_logged_in!
     if basic_authenticated? && !current_user.admin?
@@ -12,17 +12,17 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  private
-  
-  def basic_authenticated?
-    basic_authenticate != 401
-  end
-  
   def basic_authenticate
     authenticate_or_request_with_http_basic do |user, passwd|
       success = user == Conf.admin['user'] && passwd == Conf.admin['passwd']
       current_user.update_attribute(:admin, true) if success && current_user && !current_user.admin?
       success
     end
+  end
+
+private
+  
+  def basic_authenticated?
+    basic_authenticate != 401
   end
 end
