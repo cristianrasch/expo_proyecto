@@ -4,9 +4,12 @@ require 'bundler/capistrano'
 
 # Load RVM's capistrano plugin.    
 require 'rvm/capistrano'
-
 set :rvm_ruby_string, 'ruby-1.9.3-p194'
 set :rvm_type, :system
+
+set :stages, %w(production qa)
+set :default_stage, "production"
+require 'capistrano/ext/multistage'
 
 # set :server, 'virpus'
 set :application, 'expo_proyecto'
@@ -17,11 +20,11 @@ set :repository, 'https://github.com/cristianrasch/expo_proyecto.git'
 # set :user, 'ec2-user'
 set :use_sudo, false
 set :deploy_via, :remote_cache
-set :deploy_to, "/var/www/#{application}"
 
-role :web, 'virpus'                          # Your HTTP server, Apache/etc
-role :app, 'virpus'                          # This may be the same as your `Web` server
-role :db,  'virpus', :primary => true        # This is where Rails migrations will run
+set :target_host, "virpus"
+# role :web, target_host                          # Your HTTP server, Apache/etc
+role :app, target_host                          # This may be the same as your `Web` server
+role :db,  target_host, :primary => true        # This is where Rails migrations will run
 
 desc "Symlink the database config file from shared
       directory to current release directory."
