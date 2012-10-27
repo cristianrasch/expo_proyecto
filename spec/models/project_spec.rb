@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'spec_helper'
 
 describe Project do
@@ -16,7 +18,7 @@ describe Project do
       exposition = create(:exposition, year: 2012, start_date: Date.civil(2012, 6, 1), end_date: Date.civil(2012, 6, 3))
       project = build(:project, exposition: exposition)
       project.should be_invalid
-      project.should have(1).error_on(:start_date)
+      project.errors[:base].should include("La exposición ha finalizado")
     end
   end
   

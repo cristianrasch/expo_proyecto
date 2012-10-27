@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :exposition do
-    year { (10.years.ago.year..Date.today.year).to_a.sample }
+    year { (1.year.from_now.year..10.years.from_now.year).to_a.sample }
     # year { rand(Date.today.year) }
 
     factory :exposition_with_projects do

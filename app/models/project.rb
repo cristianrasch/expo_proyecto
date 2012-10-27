@@ -17,7 +17,7 @@ class Project < ActiveRecord::Base
                         :inclusion => { :in => Conf.expo_modes.values, :allow_nil => true }
   validates :description, :presence => true unless Rails.env.development?
   validate :must_have_at_least_one_author
-  validate :exposition_must_still_be_running
+  validate :exposition_must_still_be_running, on: :create
   validates :exposition_id, :numericality => true
 
   validates :needs_projector_reason,
@@ -280,8 +280,8 @@ private
   end
 
   def exposition_must_still_be_running
-    if Date.today > exposition.end_date
-      errors.add(:start_date, I18n.t('errors.messages.less_than_or_equal_to', count: I18n.l(exposition.end_date)))
+    if exposition && Date.today > exposition.end_date
+      errors.add(:base, "La exposición ha finalizado")
     end
   end
 end

@@ -27,4 +27,5 @@ end
 group :test do
   gem 'sqlite3'
   gem 'database_cleaner'
+  gem "timecop", "~> 0.5.3"
 end

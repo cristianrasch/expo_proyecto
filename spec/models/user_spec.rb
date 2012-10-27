@@ -3,8 +3,11 @@ require 'spec_helper'
 describe User do
   context "should deactivate expired accounts" do
     before do
-      @exposition = create(:exposition, :year => 2.years.ago.year)
-      create(:project, :exposition => @exposition, :user => user)
+      two_years_ago = 2.years.ago
+      Timecop.freeze(two_years_ago) do
+        @exposition = create(:exposition, :year => two_years_ago.year)
+        create(:project, :exposition => @exposition, :user => user)
+      end
     end
     
     context "when user is an admin" do
