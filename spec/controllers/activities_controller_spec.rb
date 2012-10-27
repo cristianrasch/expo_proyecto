@@ -4,19 +4,19 @@ describe ActivitiesController do
   render_views
   
   before do 
-    sign_in Factory(:user, :admin => true)
+    sign_in create(:user, :admin => true)
     basic_authenticate
   end
   
   it "should deny access to non-admin users" do
     request.env['HTTP_AUTHORIZATION'] = nil
-    get :index, :exposition_id => Factory(:exposition).year
+    get :index, :exposition_id => create(:exposition).year
     
     response.status.should == 401
   end
   
   it "should display Exposition's activities" do
-    get :index, :exposition_id => Factory(:exposition).year
+    get :index, :exposition_id => create(:exposition).year
     
     response.should be_success
     response.should render_template(:index)
@@ -25,7 +25,7 @@ describe ActivitiesController do
   end
   
   it "should display a new Activity form" do
-    get :new, :exposition_id => Factory(:exposition).year
+    get :new, :exposition_id => create(:exposition).year
     
     response.should be_success
     response.should render_template(:new)
@@ -35,7 +35,7 @@ describe ActivitiesController do
   end
   
   context "create action" do
-    before { @exposition = Factory(:exposition, :year => Date.today.year) }
+    before { @exposition = create(:exposition, :year => Date.today.year) }
     
     it "should redisplay the new Activity form when invalid params are submitted" do
       lambda {
@@ -52,7 +52,7 @@ describe ActivitiesController do
     it "should create a new Activity when valid params are submitted" do
       lambda {
         post :create, :exposition_id => @exposition, 
-             :activity => Factory.attributes_for(:activity, :exposition => @exposition)
+             :activity => attributes_for(:activity, exposition: @exposition)
       }.should change(@exposition.activities, :count).by(1)
       
       response.should be_redirect
@@ -64,7 +64,7 @@ describe ActivitiesController do
   end
   
   it "should display the Activity's page" do
-    get :show, :id => Factory(:activity)
+    get :show, :id => create(:activity)
     
     response.should be_success
     response.should render_template(:show)
@@ -73,7 +73,7 @@ describe ActivitiesController do
   end
   
   it "should display the Activity's edit form" do
-    get :edit, :id => Factory(:activity)
+    get :edit, :id => create(:activity)
     
     response.should be_success
     response.should render_template(:edit)
@@ -82,7 +82,7 @@ describe ActivitiesController do
   
   context "update action" do
     it "should redisplay Activity's edit form when invalid params are submitted" do
-      put :update, :id => Factory(:activity), :activity => {:title => ''}
+      put :update, :id => create(:activity), :activity => {:title => ''}
       
       response.should be_success
       response.should render_template(:edit)
@@ -91,7 +91,7 @@ describe ActivitiesController do
     end
     
     it "should update an existing Activity when valid params are submitted" do
-      activity = Factory(:activity)
+      activity = create(:activity)
       put :update, :id => activity, :activity => {:title => '..'}
       
       response.should be_redirect
@@ -103,7 +103,7 @@ describe ActivitiesController do
   end
 
   it "should delete an existing Activity" do
-    activity = Factory(:activity)
+    activity = create(:activity)
     lambda {
       delete :destroy, :id => activity
     }.should change(Activity, :count).by(-1)

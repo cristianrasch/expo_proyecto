@@ -3,10 +3,10 @@ require 'spec_helper'
 describe ExpositionsController do
   render_views
   
-  before { sign_in Factory(:user) }
+  before { sign_in create(:user) }
   
   it "should display a list of existing Expositions" do
-    2.times { Factory(:exposition) }
+    create_list(:exposition, 2)
     get :index
     
     response.should be_success
@@ -52,7 +52,7 @@ describe ExpositionsController do
   end
   
   it "should display the Exposition's page" do
-    get :show, :id => Factory(:exposition).year
+    get :show, :id => create(:exposition).year
     
     response.should be_success
     response.should render_template(:show)
@@ -62,7 +62,7 @@ describe ExpositionsController do
   
   it "should display the Exposition's edit form" do
     basic_authenticate
-    get :edit, :id => Factory(:exposition).year
+    get :edit, :id => create(:exposition).year
     
     response.should be_success
     response.should render_template(:edit)
@@ -75,7 +75,7 @@ describe ExpositionsController do
     before { basic_authenticate }
     
     it "should redisplay the Exposition's edit form when invalid params are submitted" do
-      put :update, :id => Factory(:exposition), :exposition => {}, :date => {:year => ''}
+      put :update, :id => create(:exposition), :exposition => {}, :date => {:year => ''}
       
       response.should be_success
       response.should render_template(:edit)
@@ -85,7 +85,7 @@ describe ExpositionsController do
     
     it "should update an existing Exposition when valid params are submitted" do
       next_year = Date.today.year+1
-      put :update, :id => Factory(:exposition), :exposition => {}, :date => {:year => next_year}
+      put :update, :id => create(:exposition), :exposition => {}, :date => {:year => next_year}
       
       response.should be_redirect
       response.should redirect_to(exposition_path(next_year))
@@ -97,7 +97,7 @@ describe ExpositionsController do
   it "should delete an existing Exposition" do
     basic_authenticate
     lambda {
-      delete :destroy, :id => Factory(:exposition)
+      delete :destroy, :id => create(:exposition)
     }.should_not change(Exposition, :count)
     
     response.should be_redirect

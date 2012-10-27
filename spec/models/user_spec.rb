@@ -3,12 +3,12 @@ require 'spec_helper'
 describe User do
   context "should deactivate expired accounts" do
     before do
-      @exposition = Factory(:exposition, :year => 2.years.ago.year)
-      Factory(:project, :exposition => @exposition, :user => user)
+      @exposition = create(:exposition, :year => 2.years.ago.year)
+      create(:project, :exposition => @exposition, :user => user)
     end
     
     context "when user is an admin" do
-      let(:user) { Factory(:user, :admin => true) }
+      let(:user) { create(:user, :admin => true) }
       
       it "should not be deactivated" do
         User.deactivate_expired_accounts
@@ -18,7 +18,7 @@ describe User do
     end
     
     context "when user is just a regular user" do
-      let(:user) { Factory(:user) }
+      let(:user) { create(:user) }
      
       it "should be deactivated" do
         User.deactivate_expired_accounts

@@ -13,7 +13,7 @@ describe Activity do
     end
     
     it "should validate uniqueness of title" do
-      activity = Factory(:activity)
+      activity = create(:activity)
       new_activity = activity.exposition.activities.build(:title => activity.title)
       
       new_activity.should_not be_valid
@@ -21,7 +21,7 @@ describe Activity do
     end
     
     it "should validate its date range" do
-      activity = Factory.build(:activity)
+      activity = build(:activity)
       activity.ends_at = activity.starts_at - 1.month
       
       activity.should be_invalid
@@ -29,8 +29,8 @@ describe Activity do
     end
     
     it "should be valid for its exposition's year" do
-      exposition = Factory(:exposition, :year => Date.today.year)
-      activity = exposition.activities.build(Factory.attributes_for(:activity, :starts_at => 2.years.ago.to_date))
+      exposition = create(:exposition, year: Date.today.year)
+      activity = build(:activity, starts_at: 2.years.ago.to_date, exposition: exposition)
       
       activity.should be_invalid
       activity.should have(1).error_on(:starts_at)
@@ -38,7 +38,7 @@ describe Activity do
   end
   
   it "should return a String representation of itself" do
-    activity = Factory(:activity)
+    activity = create(:activity)
     string = activity.to_s
     
     string.should include(activity.title)

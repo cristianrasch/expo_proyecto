@@ -12,7 +12,7 @@ describe Project do
   end
   
   context "authors attributes assignment" do
-    before { @project = Factory(:project) }
+    before { @project = create(:project) }
     
     it "should delete an author" do
       lambda {
@@ -37,36 +37,26 @@ describe Project do
   end
   
   it "should return a valid pdf filename" do
-    project = Factory(:project, :title => 'my n1f7y, little project')
+    project = build(:project, :title => 'my n1f7y, little project')
     filename = project.filename
     filename.should include(project.exposition.year.to_s)
     filename.should match(/my_n1f7y__little_project/i)
   end
   
   it "should return its formatted authors' names" do
-    project = Factory(:project)
-    2.times { project.authors << Factory(:author, :name => Faker::Name.name) }
+    project = create(:project, authors_count: 2)
     authors = project.send(:authors_names)
     project.authors.each { |author| authors.should include(author.name) }
   end
   
-  it "should return its identifier" do
-    project = Factory(:project)
-    id = project.send(:identifier)
-    id.should include(project.exposition.year.to_s)
-    id.should include(project.id.to_s)
-  end
-  
   it "should return a PDF representation of itself" do
-    Factory(:project).to_pdf.should_not be_blank
+    build(:project).to_pdf.should_not be_blank
   end
   
   describe "when paginating projects" do
     before(:all) do
-      @exposition = Factory(:exposition)
-      @projects = []
-      4.times { @projects << Factory(:project, :exposition => @exposition) }
-      @projects.reverse!
+      @exposition = create(:exposition_with_projects, projects_count: 4)
+      @projects = @exposition.projects
     end
     
     context "and we ask for the next project" do
@@ -95,7 +85,7 @@ describe Project do
   end
   
   context "approval_time accessor methods" do
-    before { @project = Factory.build(:project, :expo_mode => Conf.expo_modes['ROBOT SUMO']) }
+    before { @project = build(:project, :expo_mode => Conf.expo_modes['ROBOT SUMO']) }
     
     it "should format the read attr" do
       @project.approval_time = '2:34'
@@ -110,7 +100,7 @@ describe Project do
 
   {bmp: 'apple.bmp', gif: 'logo_multimarket.gif'}.each do |image_ext, test_fixture|
     it "should reject #{image_ext} images" do
-      project = Factory.build(:project)
+      project = build(:project)
       project.image = Rails.root.join("spec/support/files/#{test_fixture}").open
       
       project.should be_invalid
@@ -119,7 +109,7 @@ describe Project do
   end
 
   it "should accept jpeg images" do
-    project = Factory.build(:project)
+    project = build(:project)
     project.image = Rails.root.join('spec/support/files/cartel-led.jpeg').open
     
     project.should be_valid

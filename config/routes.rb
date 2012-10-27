@@ -26,7 +26,7 @@ ExpoProyecto::Application.routes.draw do
 
   namespace :qa do
     post "db/reset"
-  end if Rails.env.qa?
+  end if Rails.env.development? || Rails.env.qa?
   
   root :to => "welcome#index"
 

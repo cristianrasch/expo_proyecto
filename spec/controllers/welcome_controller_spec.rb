@@ -2,10 +2,8 @@ require 'spec_helper'
 
 describe WelcomeController do
   it "should display the welcome page" do
-    exposition = Factory(:exposition)
-    2.times do |i| 
-      Factory :activity, :exposition => exposition
-    end
+    exposition = create(:exposition)
+    create_list(:activity, 2, exposition: exposition)
     get :index
     
     response.should be_success

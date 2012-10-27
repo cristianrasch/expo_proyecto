@@ -11,7 +11,7 @@ describe CurrentSessionController do
   end
   
   it "returns a log out link if the user has already signed in" do
-    sign_in Factory(:user)
+    sign_in create(:user)
     get :show
     
     response.should be_success

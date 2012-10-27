@@ -9,7 +9,7 @@ describe Exposition do
     end
     
     it "should validate year's uniqueness" do
-      Factory(:exposition, :year => Date.today.year)
+      create(:exposition, :year => Date.today.year)
       expo = Exposition.new(:year => Date.today.year)
       expo.should be_invalid
       expo.should have(1).error_on(:year)
@@ -17,14 +17,14 @@ describe Exposition do
   end
   
   it "should set a default name when none was provided" do
-    expo = Factory(:exposition)
+    expo = create(:exposition)
     expo.name.should be_present
     expo.name.should match(/\AExpoProyecto \d+\z/)
   end
   
   it "should set default dates when none provided" do
     expo_date = 2.years.from_now.to_date
-    expo = Factory(:exposition, :year => expo_date.year)
+    expo = create(:exposition, :year => expo_date.year)
     
     expo.start_date.should_not be_blank
     expo.start_date.should == expo_date.at_beginning_of_year

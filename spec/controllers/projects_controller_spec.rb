@@ -3,13 +3,13 @@ require 'spec_helper'
 describe ProjectsController do
   render_views
   
-  before { sign_in Factory(:user) }
+  before { sign_in create(:user) }
   
   context "index action" do
-    before { @expo = Factory(:exposition) }
+    before { @expo = create(:exposition) }
     
     it "should search for projects" do
-      2.times { |i| Factory :project, :title => "Project ##{i}", :exposition => @expo }
+      2.times { |i| create :project, :title => "Project ##{i}", :exposition => @expo }
       get :index, :exposition_id => @expo.year, :project => { :title => 'project' }
       
       response.should be_success
@@ -20,7 +20,7 @@ describe ProjectsController do
     end
     
     it "should concat all projects' pdf files into a single one" do
-      2.times { Factory :project, :exposition => @expo }
+      2.times { create :project, :exposition => @expo }
       get :index, :exposition_id => @expo.year, :format => :pdf
       
       response.should be_success
@@ -29,8 +29,8 @@ describe ProjectsController do
   end
   
   it "should display a gallery of projects" do
-    expo = Factory(:exposition)
-    2.times { Factory :project, :exposition => expo }
+    expo = create(:exposition)
+    2.times { create :project, :exposition => expo }
     get :gallery, :exposition_id => expo.year
     
     response.should be_success
@@ -41,7 +41,7 @@ describe ProjectsController do
   end
   
   it "should display a new Project form" do
-    get :new, :exposition_id => Factory(:exposition).year
+    get :new, :exposition_id => create(:exposition).year
     
     response.should be_success
     response.should render_template(:new)
@@ -51,7 +51,7 @@ describe ProjectsController do
   end
   
   context "create action" do
-    before { @exposition = Factory(:exposition) }
+    before { @exposition = create(:exposition) }
     
     it "should redisplay the new Project form when invalid params are submitted" do
       lambda {
@@ -68,7 +68,7 @@ describe ProjectsController do
     it "should create a new Project when valid params are submitted" do
       lambda {
         post :create, :exposition_id => @exposition, 
-             :project => Factory.attributes_for(:project).merge(:authors_attributes => {1 => { :name => Faker::Name.name }}, 
+             :project => attributes_for(:project).merge(:authors_attributes => {1 => { :name => Faker::Name.name }}, 
                                                 :image => test_image)
       }.should change(@exposition.projects, :count).by(1)
       
@@ -84,7 +84,7 @@ describe ProjectsController do
   
   context "show action" do
     it "should display Project's page" do
-      get :show, :id => Factory(:project)
+      get :show, :id => create(:project)
       
       response.should be_success
       response.should render_template(:show)
@@ -93,7 +93,7 @@ describe ProjectsController do
     end
     
     it "should display Project's PDF representation" do
-      get :show, :id => Factory(:project), :format => :pdf
+      get :show, :id => create(:project), :format => :pdf
       
       response.should be_success
       assigns[:project].should_not be_nil
@@ -108,10 +108,10 @@ describe ProjectsController do
     end
     
     context "when a regular user is logged in" do
-      let(:user) { Factory(:user) }
+      let(:user) { create(:user) }
       
       it "should not be able to edit another one's project" do
-        project = Factory(:project)
+        project = create(:project)
         get :edit, :id => project
         
         response.should be_redirect
@@ -122,7 +122,7 @@ describe ProjectsController do
     end
     
     context "when a project owner is logged in" do
-      let(:user) { Factory(:project).user }
+      let(:user) { create(:project, :with_user).user }
       
       it "should be able to edit his/her projects" do
         get :edit, :id => user.projects.last
@@ -141,7 +141,7 @@ describe ProjectsController do
     end
     
     context "when invalid params are submitted" do
-      let(:user) { Factory(:project).user }
+      let(:user) { create(:project, :with_user).user }
       
       it "should redisplay Project's edit form" do
         put :update, :id => user.projects.last, :project => {:title => ''}
@@ -154,7 +154,7 @@ describe ProjectsController do
     end
     
     context "when valid params are submitted" do
-      let(:user) { Factory(:project, :image => test_image).user }
+      let(:user) { create(:project, :with_user, :image => test_image).user }
       
       it "should update an existing Project" do
         project = user.projects.last
@@ -172,7 +172,7 @@ describe ProjectsController do
 
   it "should delete an existing Project" do
     sign_out :user
-    project = Factory(:project)
+    project = create(:project, :with_user)
     sign_in project.user
     lambda {
       delete :destroy, :id => project
@@ -187,7 +187,7 @@ describe ProjectsController do
   
   [:prev, :next].each do |action|
     it "should display the #{action} project on the list" do
-      project = Factory(:project)
+      project = create(:project)
       get action, :id => project, :exposition_id => project.exposition_id
       
       response.should be_success

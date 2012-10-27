@@ -7,7 +7,7 @@ describe Author do
     author.should be_invalid
     author.should have(1).error_on(:name)
     
-    another = Factory(:author)
+    another = create(:author, :with_project)
     author.name = another.name
     author.project = another.project
     author.should be_invalid
@@ -15,6 +15,7 @@ describe Author do
   end
   
   it "should titleize its name before being saved" do
-    Factory(:author, :name => 'john grisham').name.should == 'John Grisham'
+    author = create(:author, name: 'john grisham')
+    author.name.should eq('John Grisham')
   end
 end

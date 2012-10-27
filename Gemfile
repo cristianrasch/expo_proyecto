@@ -21,6 +21,10 @@ end
 group :development do
   gem 'capistrano'
   gem 'rvm-capistrano'
+  gem 'spork-rails'
 end
 
-gem 'sqlite3', :group => :test
+group :test do
+  gem 'sqlite3'
+  gem 'database_cleaner'
+end

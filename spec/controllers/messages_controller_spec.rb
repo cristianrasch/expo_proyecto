@@ -4,12 +4,12 @@ describe MessagesController do
   render_views
 
   before do
-    sign_in Factory(:user, :admin => true)
+    sign_in create(:user, :admin => true)
     basic_authenticate
   end
 
   it "should display a new message form" do
-    get :new, :exposition_id => Factory(:exposition).id
+    get :new, :exposition_id => create(:exposition).id
     
     response.should be_success
     response.should render_template(:new)
@@ -20,7 +20,7 @@ describe MessagesController do
     context "when invalid params are submitted" do
       it "should redisplay the new message form" do
         lambda {
-          post :create, :exposition_id => Factory(:exposition), :message => {}
+          post :create, :exposition_id => create(:exposition), :message => {}
         }.should_not change(ActionMailer::Base.deliveries, :length)
         
         response.should be_success
@@ -32,7 +32,7 @@ describe MessagesController do
     
     context "when valid params are submitted" do
       it "should send the message" do
-        source = Factory(:project)
+        source = create(:project)
         lambda {
           post :create, :project_id => source, 
                :message => {:recipients => ["one@example.org", "two@example.org"], 

@@ -1,37 +1,68 @@
-Factory.define :exposition do |e|
-  e.year { rand(Date.today.year) }
-end
+FactoryGirl.define do
+  factory :exposition do
+    year { (10.years.ago.year..Date.today.year).to_a.sample }
+    # year { rand(Date.today.year) }
 
-Factory.define :project do |p|
-  p.title { Faker::Company.name }
-  p.faculty Conf.faculties.values.first
-  p.subject { Faker::Lorem.sentence }
-  p.group_type Conf.group_types.values.first
-  p.contact Faker::Internet.email
-  p.expo_mode Conf.expo_modes.values.first
-  p.description Faker::Lorem.paragraph
-  
-  p.association :exposition
-  p.association :user
-  p.after_build { |pp| 3.times { pp.authors << Factory(:author, :project => pp) } }
-end
+    factory :exposition_with_projects do
+      ignore do
+        projects_count 1
+      end
 
-Factory.define :author do |a|
-  a.name { Faker::Name.name }
-  
-  a.association :project
-end
+      after(:create) do |exposition, evaluator|
+        FactoryGirl.create_list :project, evaluator.projects_count, exposition: exposition
+      end
+    end
+  end
 
-Factory.define :activity do |a|
-  a.title { Faker::Lorem.word }
-  a.exposition { Factory(:exposition) }
-  a.starts_at { |aa| Date.civil(aa.exposition.year, 5, 29) }
-  a.ends_at { |aa| Date.civil(aa.exposition.year, 9, 11) }
-end
+  factory :project do
+    title { Faker::Company.name }
+    faculty Conf.faculties.values.first
+    subject Faker::Lorem.sentence
+    group_type Conf.group_types.values.first
+    contact Faker::Internet.email
+    expo_mode Conf.expo_modes.values.first
+    description Faker::Lorem.paragraph
+    
+    exposition
+    
+    trait :with_user do
+      user
+    end
 
-Factory.define :user do |u|
-  u.email { Faker::Internet.email }
-  u.password { ActiveSupport::SecureRandom.hex(5) }
-  u.password_confirmation { |uu| uu.password }
-  u.confirmed_at 1.hour.ago
+    ignore do
+      authors_count 1
+    end
+
+    after(:build) do |project, evaluator|
+      evaluator.authors_count.times do
+        project.authors.build FactoryGirl.attributes_for(:author)
+      end
+    end
+  end
+
+  factory :author do
+    name { Faker::Name.name }
+    
+    trait :with_project do
+      project
+    end
+  end
+
+  factory :activity do
+    title { Faker::Lorem.sentence }
+    starts_at { Date.civil(exposition.year, 5, 29) }
+    ends_at { Date.civil(exposition.year, 9, 11) }
+
+    exposition
+  end
+
+  factory :user do
+    email { Faker::Internet.email }
+    password { ActiveSupport::SecureRandom.hex(5) }
+    password_confirmation { password }
+    
+    trait :confirmed do
+      confirmed_at 1.hour.ago
+    end
+  end
 end

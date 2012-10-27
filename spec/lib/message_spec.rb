@@ -11,7 +11,7 @@ describe Message do
   end
   
   it "should initialize its recipients array when an exposition param given to its initialize method" do
-    project = Factory(:project, :contact => "one@example.com, ..., two@example.com")
+    project = create(:project, :contact => "one@example.com, ..., two@example.com")
     message = Message.new :source => project
     
     message.recipients.should_not be_empty
