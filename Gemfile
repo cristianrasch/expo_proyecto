@@ -10,6 +10,7 @@ gem 'paperclip'
 gem 'prawn'
 gem 'devise', '~> 1.5'
 gem 'pg'
+gem "friendly_id", "~> 4.0.1"
 # gem 'whenever', :require => false
 
 group :test, :development do

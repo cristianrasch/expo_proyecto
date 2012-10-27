@@ -4,6 +4,9 @@ class Project < ActiveRecord::Base
   include ProjectUtils
   include Prawn::Measurements
 
+  extend FriendlyId
+  friendly_id :title, use: :slugged
+
   validates :title, :presence => true, :uniqueness => { :scope => :exposition_id }
   validates :faculty, :numericality => { :message => I18n.t('errors.messages.blank'), :if => :not_in_dev? },
                       :inclusion => { :in => Conf.faculties.values, :allow_nil => true }
@@ -206,20 +209,16 @@ class Project < ActiveRecord::Base
     group_type.to_i < 0
   end
 
-  def self.find_prev(project_id, exposition_id)
-    project = where(:exposition_id => exposition_id).
-              includes(:exposition, :authors).
-              order("created_at desc")
-
-    project.where(["id > ?", project_id]).last || project.last
+  def self.find_prev(slug, exposition_id)
+    project_id = where(slug: slug, exposition_id: exposition_id).first.id
+    scoped = where(:exposition_id => exposition_id).order("created_at desc")
+    scoped.where(["id > ?", project_id]).last || scoped.last
   end
 
-  def self.find_next(project_id, exposition_id)
-    project = where(:exposition_id => exposition_id).
-              includes(:exposition, :authors).
-              order("created_at desc")
-
-    project.where(["id < ?", project_id]).first || project.first
+  def self.find_next(slug, exposition_id)
+    project_id = where(slug: slug, exposition_id: exposition_id).first.id
+    scoped = where(:exposition_id => exposition_id).order("created_at desc")
+    scoped.where(["id < ?", project_id]).first || scoped.first
   end
 
   def self.with_extra_needs
@@ -264,6 +263,11 @@ SQL
     relative_path.slice!(/\?\d+/)
     File.join(Rails.public_path, relative_path)
   end
+
+  # def to_param
+  #   sanitized_title = title.gsub(/[^a-z0-9 ]/i, "").gsub(/\s+/, "-")
+  #   "#{id}-#{sanitized_title}"
+  # end
 
 private
 

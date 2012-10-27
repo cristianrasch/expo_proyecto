@@ -72,24 +72,24 @@ describe Project do
     
     context "and we ask for the next project" do
       it "should return the closest next project" do
-        project = Project.find_next(@projects.first.id, @exposition.id)
+        project = Project.find_next(@projects.first.slug, @exposition.id)
         project.should eq(@projects.second)
       end
       
       it "should return the first project when the end of the list is reached" do
-        project = Project.find_next(@projects.last.id, @exposition.id)
+        project = Project.find_next(@projects.last.slug, @exposition.id)
         project.should eq(@projects.first)
       end
     end
     
     context "and we ask for the previous project" do
       it "should return the closest previous project" do
-        project = Project.find_prev(@projects.second.id, @exposition.id)
+        project = Project.find_prev(@projects.second.slug, @exposition.id)
         project.should eq(@projects.first)
       end
       
       it "should return the last project when the end of the list is reached" do
-        project = Project.find_prev(@projects.first.id, @exposition.id)
+        project = Project.find_prev(@projects.first.slug, @exposition.id)
         project.should eq(@projects.last)
       end
     end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111119152624) do
+ActiveRecord::Schema.define(:version => 20121027205218) do
 
   create_table "activities", :force => true do |t|
     t.string   "title"
@@ -75,9 +75,11 @@ ActiveRecord::Schema.define(:version => 20111119152624) do
     t.string   "other_group"
     t.integer  "approval_time"
     t.integer  "position"
+    t.string   "slug"
   end
 
   add_index "projects", ["exposition_id"], :name => "index_projects_on_exposition_id"
+  add_index "projects", ["slug"], :name => "index_projects_on_slug", :unique => true
   add_index "projects", ["title", "exposition_id"], :name => "index_projects_on_title_and_exposition_id"
   add_index "projects", ["user_id"], :name => "index_projects_on_user_id"
 

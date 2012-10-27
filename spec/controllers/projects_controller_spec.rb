@@ -188,7 +188,7 @@ describe ProjectsController do
   [:prev, :next].each do |action|
     it "should display the #{action} project on the list" do
       project = create(:project)
-      get action, :id => project, :exposition_id => project.exposition_id
+      get action, :id => project.slug, :exposition_id => project.exposition_id
       
       response.should be_success
       response.should render_template(:show)
