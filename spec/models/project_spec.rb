@@ -1,14 +1,23 @@
 require 'spec_helper'
 
 describe Project do
-  it "should save only valid instances" do
-    project = Project.new(:needs_projector => "1", :faculty => -1)
-    
-    project.should be_invalid
-    [:title, :subject, :group_type, :contact, :expo_mode, 
-     :description, :author_ids, :needs_projector_reason, :other_faculty].each { |attr|
-      project.should have(1).error_on(attr)
-    }
+  context "model validations" do
+    it "requires some attributes to be present" do
+      project = Project.new(:needs_projector => "1", :faculty => -1)
+      
+      project.should be_invalid
+      [:title, :subject, :group_type, :contact, :expo_mode, 
+       :description, :author_ids, :needs_projector_reason, :other_faculty].each { |attr|
+        project.should have(1).error_on(attr)
+      }
+    end
+
+    it "can't add new projects once the exposition has finished" do
+      exposition = create(:exposition, year: 2012, start_date: Date.civil(2012, 6, 1), end_date: Date.civil(2012, 6, 3))
+      project = build(:project, exposition: exposition)
+      project.should be_invalid
+      project.should have(1).error_on(:start_date)
+    end
   end
   
   context "authors attributes assignment" do
