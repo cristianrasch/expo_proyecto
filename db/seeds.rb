@@ -8,5 +8,7 @@
 
 
 exposition = FactoryGirl.create(:exposition, year: Date.today.year)
-project = FactoryGirl.create(:project, authors_count: 2, title: "qa-project", exposition: exposition)
+project = FactoryGirl.create(:project, authors_count: 2, 
+                              title: "QA Project", description: "Dummy test project", 
+                              exposition: exposition)
 FactoryGirl.create_list :activity, 2, exposition: exposition
