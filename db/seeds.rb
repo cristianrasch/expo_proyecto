@@ -6,6 +6,7 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 
-project = FactoryGirl.create(:project, authors_count: 2, title: "qa-project")
-exposition = project.exposition
+
+exposition = FactoryGirl.create(:exposition, year: Date.today.year)
+project = FactoryGirl.create(:project, authors_count: 2, title: "qa-project", exposition: exposition)
 FactoryGirl.create_list :activity, 2, exposition: exposition
