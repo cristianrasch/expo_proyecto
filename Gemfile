@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.11'
+gem 'rails', '3.2.12'
 gem 'jquery-rails', '>= 1.0.12'
 gem 'haml'
 gem 'rake'
@@ -8,9 +8,11 @@ gem 'kaminari'
 gem 'rmagick'
 gem 'paperclip'
 gem 'prawn'
+gem 'prawnto'
 gem 'devise', '~> 1.5'
 gem 'pg'
-gem "friendly_id", "~> 4.0.1"
+gem 'friendly_id', '~> 4.0.1'
+gem 'dynamic_form'
 # gem 'whenever', :require => false
 
 group :test, :development do

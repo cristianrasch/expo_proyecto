@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :exposition do
-    year { (1.year.from_now.year..10.years.from_now.year).to_a.sample }
+    sequence(:year) { |n| Date.today.year + n }
+    # year { (1.year.from_now.year..10.years.from_now.year).to_a.sample }
 
     factory :exposition_with_projects do
       ignore do
