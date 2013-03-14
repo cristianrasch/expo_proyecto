@@ -4,7 +4,7 @@ require 'bundler/capistrano'
 
 # Load RVM's capistrano plugin.    
 require 'rvm/capistrano'
-set :rvm_ruby_string, 'ruby-1.9.3-p194'
+set :rvm_ruby_string, 'ruby-1.9.3-p392'
 set :rvm_type, :system
 
 set :stages, %w(production qa)
