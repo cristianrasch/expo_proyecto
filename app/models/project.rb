@@ -80,7 +80,7 @@ class Project < ActiveRecord::Base
   end
 
   def self.default_image_path
-    File.join Rails.public_path, 'images', 'logo.png'
+    Rails.root.join('app/assets/images/logo.png').to_s
   end
 
   def approval_time=(time)

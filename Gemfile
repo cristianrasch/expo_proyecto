@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.2.12'
-gem 'jquery-rails', '>= 1.0.12'
+gem 'jquery-rails', '~> 2.1'
 gem 'haml'
 gem 'rake'
 gem 'kaminari'
@@ -14,6 +14,8 @@ gem 'pg'
 gem 'friendly_id', '~> 4.0.1'
 gem 'dynamic_form'
 # gem 'whenever', :require => false
+
+gem 'uglifier', '>= 1.0.3', groups: :assets
 
 group :test, :development do
   gem 'rspec-rails'#, '~> 2.6'

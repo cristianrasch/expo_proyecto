@@ -51,6 +51,8 @@ GEM
     diff-lcs (1.2.1)
     dynamic_form (1.1.4)
     erubis (2.7.0)
+    execjs (1.4.0)
+      multi_json (~> 1.0)
     factory_girl (4.2.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.2.1)
@@ -164,6 +166,9 @@ GEM
       polyglot (>= 0.3.1)
     ttfunk (1.0.3)
     tzinfo (0.3.37)
+    uglifier (1.3.0)
+      execjs (>= 0.3.0)
+      multi_json (~> 1.0, >= 1.0.2)
     warden (1.2.1)
       rack (>= 1.0)
 
@@ -179,7 +184,7 @@ DEPENDENCIES
   ffaker
   friendly_id (~> 4.0.1)
   haml
-  jquery-rails (>= 1.0.12)
+  jquery-rails (~> 2.1)
   kaminari
   paperclip
   pg
@@ -193,3 +198,4 @@ DEPENDENCIES
   spork-rails
   sqlite3
   timecop (~> 0.5.3)
+  uglifier (>= 1.0.3)

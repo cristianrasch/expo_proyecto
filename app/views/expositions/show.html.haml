@@ -19,9 +19,7 @@
           - @projects.sample(14).each do |project|
             %li= image_tag project.image.url(:small)
   
-= content_for :styles, stylesheet_link_tag("flexslider")
 = content_for :js do
-  = javascript_include_tag "jquery.flexslider-min"
   :javascript
     $(document).ready(function () {
       $('.flexslider').flexslider({

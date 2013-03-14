@@ -53,7 +53,7 @@ Spork.prefork do
 
   def test_image(file = 'add.png')
     extname = File.extname(file)[/\A[.]([a-zA-Z]+)\z/, 1]
-    Rack::Test::UploadedFile.new(Rails.root.join("public/images/#{file}").to_s, "image/#{extname}")
+    Rack::Test::UploadedFile.new(Rails.root.join("app/assets/images/#{file}").to_s, "image/#{extname}")
   end
 
   def basic_authenticate
