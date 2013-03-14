@@ -69,6 +69,10 @@ describe Project do
       @exposition = create(:exposition_with_projects, projects_count: 4)
       @projects = @exposition.projects
     end
+
+    after(:all) do
+      @exposition.destroy
+    end
     
     context "and we ask for the next project" do
       it "should return the closest next project" do

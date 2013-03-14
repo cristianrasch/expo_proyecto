@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :exposition do
     year { (1.year.from_now.year..10.years.from_now.year).to_a.sample }
-    # year { rand(Date.today.year) }
 
     factory :exposition_with_projects do
       ignore do
@@ -58,7 +57,7 @@ FactoryGirl.define do
 
   factory :user do
     email { Faker::Internet.email }
-    password { ActiveSupport::SecureRandom.hex(5) }
+    password { SecureRandom.hex(5) }
     password_confirmation { password }
     
     trait :confirmed do

@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.20'
+gem 'rails', '3.1.11'
 gem 'jquery-rails', '>= 1.0.12'
 gem 'haml'
 gem 'rake'
@@ -14,7 +14,7 @@ gem "friendly_id", "~> 4.0.1"
 # gem 'whenever', :require => false
 
 group :test, :development do
-  gem 'rspec-rails', '~> 2.6'
+  gem 'rspec-rails'#, '~> 2.6'
   gem 'factory_girl_rails'
   gem 'ffaker'
 end
