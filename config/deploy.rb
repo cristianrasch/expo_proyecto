@@ -1,4 +1,5 @@
 require 'bundler/capistrano'
+set :bundle_flags, '--deployment --quiet --without development test assets'
 # set :whenever_command, "bundle exec whenever"
 # require "whenever/capistrano"
 
