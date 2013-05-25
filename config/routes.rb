@@ -9,11 +9,11 @@ ExpoProyecto::Application.routes.draw do
 
   resources :expositions, :path => :expos, :shallow => true do
     resources :projects do
-      member do 
+      member do
         get "prev"
         get "next"
       end
-      
+
       get :gallery, :on => :collection
     end
     resources :activities
@@ -21,13 +21,9 @@ ExpoProyecto::Application.routes.draw do
   match 'expos/:id/summary' => 'expositions#summary', :as => :exposition_summary
   match 'expos/:exposition_id/tags' => 'tags#index', :as => :exposition_tags
   match 'expos/:exposition_id/requirements' => 'requirements#index', :as => :exposition_requirements
-  
+
   resources :messages, :only => [:new, :create]
 
-  namespace :qa do
-    post "db/reset"
-  end if Rails.env.development? || Rails.env.qa?
-  
   root :to => "welcome#index"
 
   # The priority is based upon order of creation:

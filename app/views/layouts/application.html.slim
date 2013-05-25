@@ -1,0 +1,66 @@
+doctype html
+/[if IE 8]
+  html.no-js.lt-ie9 lang="en"
+/[if gt IE 8]
+  html.no-js lang="en"
+
+head
+  meta charset="utf-8"
+  meta name="viewport" content="width=device-width"
+  = csrf_meta_tag
+
+  title Expo Proyecto UNLaM
+
+  = stylesheet_link_tag 'application'
+
+  = javascript_include_tag 'custom.modernizr'
+
+body
+  .row
+    .small-12.columns
+      nav.top-bar
+        ul.title-area
+          li.name
+            h1= link_to 'Expo Proyecto UNLaM', root_path
+
+        section.top-bar-section
+          ul.left
+            li.divider
+            li.has-dropdown
+              = link_to 'Ediciones', expositions_path
+
+              ul.dropdown
+                - Exposition.sorted.each do |exposition|
+                  li= link_to exposition.year, exposition
+            li.divider
+            li= link_to 'Sede', venue_path
+            li.divider
+          ul.right
+            li.divider.hide-for-small
+            li#current_session
+      hr/
+
+  .row
+    .small-9.columns
+      h3= yield :title
+      .row
+        .small-12.columns= yield
+    .small-3.columns
+      - if content_for?(:sidebar)
+        h4 Menú
+        = yield :sidebar
+
+  .row
+    .small-12.columns
+      hr/
+  .row.footer
+    .small-12.columns.text-center Copyright (c) #{Date.today.year} LACIE. Todos los derechos reservados.
+
+  = javascript_include_tag 'application'
+  javascript:
+    $(document).foundation();
+
+    $.get('#{current_session_path}', function(data) {
+      $('#current_session').html(data);
+    });
+  = yield :js

@@ -11,3 +11,4 @@ public/uploads
 vendor/bundle
 *.komodoproject
 public/*.html
+.rbenv-gemsets

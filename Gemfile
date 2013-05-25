@@ -3,6 +3,7 @@ source 'http://rubygems.org'
 gem 'rails', '3.2.13'
 gem 'jquery-rails', '~> 2.1'
 gem 'haml'
+gem 'slim'
 gem 'rake'
 gem 'kaminari'
 gem 'rmagick'
@@ -15,10 +16,20 @@ gem 'friendly_id', '~> 4.0.1'
 gem 'dynamic_form'
 # gem 'whenever', :require => false
 
-gem 'uglifier', '>= 1.0.3', groups: :assets
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'sass-rails',   '~> 3.2.3'
+
+  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
+  gem 'therubyracer'
+
+  gem 'uglifier', '>= 1.0.3'
+  gem 'turbo-sprockets-rails3'
+end
 
 group :test, :development do
-  gem 'rspec-rails'#, '~> 2.6'
+  gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'ffaker'
 end

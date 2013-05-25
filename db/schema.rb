@@ -16,8 +16,8 @@ ActiveRecord::Schema.define(:version => 20121027213643) do
   create_table "activities", :force => true do |t|
     t.string   "title"
     t.integer  "exposition_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
     t.datetime "starts_at"
     t.datetime "ends_at"
   end
@@ -37,8 +37,8 @@ ActiveRecord::Schema.define(:version => 20121027213643) do
   create_table "expositions", :force => true do |t|
     t.integer  "year"
     t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
     t.date     "start_date"
     t.date     "end_date"
     t.boolean  "users_deactivated", :default => false
@@ -58,8 +58,8 @@ ActiveRecord::Schema.define(:version => 20121027213643) do
     t.integer  "expo_mode",                  :limit => 2
     t.text     "description"
     t.integer  "exposition_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                                 :null => false
+    t.datetime "updated_at",                                                 :null => false
     t.text     "requirements"
     t.text     "lab_gear"
     t.integer  "sockets_count",                           :default => 0
@@ -97,8 +97,8 @@ ActiveRecord::Schema.define(:version => 20121027213643) do
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                               :null => false
+    t.datetime "updated_at",                                               :null => false
     t.boolean  "admin",                                 :default => false
     t.boolean  "active",                                :default => true
   end

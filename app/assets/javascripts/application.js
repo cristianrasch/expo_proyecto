@@ -1,5 +1,6 @@
 //= require jquery
 //= require jquery_ujs
+//= require foundation.min
 //= require jquery-ui
 //= require jquery_plugins/jquery.ui.datepicker-es
 //= require jquery_plugins/jquery-ui-timepicker-addon

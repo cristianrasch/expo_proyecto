@@ -1,0 +1,19 @@
+/*
+*= require foundation
+*= require general_enclosed_foundicons
+* require style
+*= require_directory ./jquery_plugins
+*= require_self
+*/
+
+.footer {
+  margin-bottom: 2.5%;
+}
+
+.inline {
+  display: inline-block;
+}
+
+[class*="foundicon-"] {
+  margin-right: 0.25em;
+}
